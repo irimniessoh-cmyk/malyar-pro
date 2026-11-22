@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="مالیار پرو">
+<meta name="theme-color" content="#0f172a">
+<title>مالیار پرو | مدیریت مالی کامل</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  :root{
+    --bg:#f1f5f9; --card:#ffffff; --text:#0f172a; --muted:#64748b; --line:#e2e8f0;
+    --accent:#10b981; --accent2:#059669; --red:#ef4444; --amber:#f59e0b; --blue:#3b82f6;
+    --radius:24px; --shadow:0 10px 30px rgba(15,23,42,.08); --input:#f8fafc;
+  }
+  body.dark{
+    --bg:#0f172a; --card:#1e293b; --text:#f1f5f9; --muted:#94a3b8; --line:#334155;
+    --shadow:0 10px 30px rgba(0,0,0,.35); --input:#0f172a;
+  }
+  html,body{width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,sans-serif;background:#020617;color:var(--text);min-height:100vh}
+  .phone{width:100%;max-width:480px;margin:0 auto;background:var(--bg);min-height:100vh;position:relative;padding-bottom:110px;box-shadow:0 0 60px rgba(0,0,0,.4);overflow-x:hidden}
+  @media (max-width:420px){
+    .balance-amount{font-size:25px !important}
+    .header h1{font-size:18px !important}
+    .header{padding:16px 14px 10px}
+    .card{padding:13px;border-radius:20px}
+    .section{padding:0 12px;margin-bottom:14px}
+    .balance-card{margin:4px 12px 12px;padding:17px;border-radius:22px}
+    .install-banner{margin:0 12px 12px;font-size:11px}
+    .quick .ic{width:36px;height:36px;font-size:17px}
+    .quick span{font-size:10px}
+    .tx-icon{width:38px;height:38px;font-size:17px}
+    .tx-title{font-size:12px}
+    .tx-amount{font-size:12px}
+    .mini-stat .v{font-size:13px}
+    .chart-wrap{flex-direction:column;align-items:center}
+    .legend{width:100%}
+    .menu-grid{gap:8px}
+    .menu-tile{padding:13px 4px}
+    .menu-tile .mi{width:40px;height:40px;font-size:19px}
+    .fab{width:50px;height:50px;font-size:24px;bottom:88px}
+  }
+  .header{padding:22px 20px 12px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:20;background:var(--bg)}
+  .header h1{font-size:21px;font-weight:900}
+  .header p{font-size:12px;color:var(--muted);margin-top:2px}
+  .avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#10b981,#0ea5e9);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;box-shadow:var(--shadow);cursor:pointer}
+  .balance-card{margin:6px 16px 14px;background:linear-gradient(135deg,#0f172a,#1e293b 55%,#065f46 130%);color:#fff;border-radius:28px;padding:22px;position:relative;overflow:hidden;box-shadow:0 20px 40px rgba(15,23,42,.25)}
+  .balance-card::after{content:"";position:absolute;left:-40px;top:-40px;width:180px;height:180px;border-radius:50%;background:rgba(16,185,129,.25)}
+  .balance-card>*{position:relative;z-index:1}
+  .balance-label{font-size:13px;opacity:.85}
+  .balance-amount{font-size:30px;font-weight:900;margin:6px 0 2px}
+  .balance-sub{font-size:12px;opacity:.75}
+  .mini-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+  .mini-stat{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:18px;padding:12px 14px}
+  .mini-stat .t{font-size:12px;opacity:.9}
+  .mini-stat .v{font-size:15px;font-weight:800;margin-top:4px}
+  .mini-stat .v.green{color:#6ee7b7}.mini-stat .v.red{color:#fca5a5}
+  .section{padding:0 16px;margin-bottom:18px}
+  .section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px}
+  .section-head h2{font-size:16px;font-weight:800}
+  .section-head button{border:none;background:none;color:var(--accent2);font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;white-space:nowrap}
+  .card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);border:1px solid var(--line)}
+  .quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .quick button{border:none;background:var(--card);border-radius:20px;padding:13px 4px;box-shadow:var(--shadow);cursor:pointer;font-family:inherit;color:var(--text)}
+  .quick .ic{width:42px;height:42px;margin:0 auto 5px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:19px}
+  .quick span{font-size:11px;font-weight:700}
+  .tx{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line)}
+  .tx:last-child{border-bottom:none}
+  .tx-icon{width:44px;height:44px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+  .tx-info{flex:1;min-width:0}
+  .tx-title{font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tx-date{font-size:11px;color:var(--muted);margin-top:2px}
+  .tx-amount{font-weight:900;font-size:13px;white-space:nowrap}
+  .tx-amount.in{color:var(--accent2)} .tx-amount.out{color:var(--red)} .tx-amount.tr{color:var(--blue)}
+  .tx-del{border:none;background:#fef2f2;color:#ef4444;width:30px;height:30px;border-radius:10px;cursor:pointer;font-size:13px;flex-shrink:0}
+  body.dark .tx-del{background:#450a0a}
+  .empty{text-align:center;padding:26px 10px;color:var(--muted);font-size:13px;line-height:1.8}
+  .empty .big{font-size:40px;margin-bottom:6px}
+  .chart-wrap{display:flex;align-items:center;gap:14px}
+  .legend{flex:1}
+  .legend-item{display:flex;align-items:center;gap:7px;font-size:12px;margin-bottom:7px}
+  .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+  .legend-item b{margin-right:auto}
+  .bars{display:flex;align-items:flex-end;gap:7px;height:130px;padding-top:8px}
+  .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;height:100%;justify-content:flex-end}
+  .bar{width:100%;max-width:26px;border-radius:8px 8px 4px 4px;background:linear-gradient(180deg,#10b981,#059669);min-height:4px}
+  .bar.red{background:linear-gradient(180deg,#f87171,#ef4444)}
+  .bar-label{font-size:10px;color:var(--muted)}
+  .budget-item{margin-bottom:15px}.budget-item:last-child{margin-bottom:0}
+  .budget-head{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;gap:8px}
+  .progress{height:10px;background:var(--line);border-radius:99px;overflow:hidden}
+  .progress-fill{height:100%;border-radius:99px;transition:width .5s}
+  .budget-edit{border:1px solid var(--line);background:var(--input);color:var(--text);border-radius:10px;padding:5px 11px;font-size:12px;cursor:pointer;font-family:inherit;font-weight:700}
+  .goal-card{background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border:1px solid #a7f3d0;border-radius:20px;padding:15px;margin-bottom:12px;color:#0f172a}
+  body.dark .goal-card{background:#064e3b;border-color:#065f46;color:#ecfdf5}
+  .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--card);border-top:1px solid var(--line);display:flex;padding:8px 6px calc(8px + env(safe-area-inset-bottom));z-index:30}
+  .nav-btn{flex:1;border:none;background:none;padding:7px 2px;cursor:pointer;font-family:inherit;color:var(--muted);font-size:10px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px;border-radius:14px}
+  .nav-btn.active{color:var(--accent2);background:#ecfdf5}
+  body.dark .nav-btn.active{background:#064e3b}
+  .nav-btn .ni{font-size:19px}
+  .fab{position:fixed;bottom:92px;right:16px;width:56px;height:56px;border-radius:50%;border:none;background:linear-gradient(135deg,#10b981,#059669);color:#fff;font-size:27px;box-shadow:0 12px 24px rgba(16,185,129,.4);cursor:pointer;z-index:31;display:flex;align-items:center;justify-content:center}
+  .view{display:none}.view.active{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:50;display:none;align-items:flex-end;justify-content:center}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--card);color:var(--text);width:100%;max-width:480px;max-height:92vh;overflow-y:auto;border-radius:28px 28px 0 0;padding:22px 20px calc(20px + env(safe-area-inset-bottom));animation:slideUp .3s ease}
+  @keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+  .modal h3{font-size:17px;font-weight:900;margin-bottom:15px;text-align:center}
+  .type-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--bg);padding:5px;border-radius:16px;margin-bottom:14px}
+  .type-toggle button{border:none;padding:10px;border-radius:12px;font-weight:800;cursor:pointer;font-family:inherit;font-size:13px;background:transparent;color:var(--muted)}
+  .type-toggle button.active.in{background:#ecfdf5;color:#059669}
+  .type-toggle button.active.out{background:#fef2f2;color:#dc2626}
+  body.dark .type-toggle button.active.in{background:#064e3b;color:#6ee7b7}
+  body.dark .type-toggle button.active.out{background:#450a0a;color:#fca5a5}
+  .field{margin-bottom:13px}
+  .field label{display:block;font-size:12px;font-weight:700;margin-bottom:5px}
+  .field input,.field select,.field textarea{width:100%;padding:12px 13px;border:2px solid var(--line);border-radius:14px;font-size:15px;font-family:inherit;outline:none;background:var(--input);color:var(--text)}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:#10b981}
+  .cat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+  .cat-btn{border:2px solid var(--line);background:var(--card);color:var(--text);border-radius:15px;padding:9px 3px;cursor:pointer;font-family:inherit;font-size:10px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px}
+  .cat-btn .ci{font-size:19px}
+  .cat-btn.selected{border-color:#10b981;background:#ecfdf5}
+  body.dark .cat-btn.selected{background:#064e3b}
+  .btn-primary{width:100%;padding:14px;border:none;border-radius:16px;background:linear-gradient(135deg,#10b981,#059669);color:#fff;font-size:15px;font-weight:900;cursor:pointer;font-family:inherit;box-shadow:0 10px 20px rgba(16,185,129,.3)}
+  .btn-secondary{width:100%;padding:12px;border:2px solid var(--line);border-radius:16px;background:var(--card);color:var(--text);font-weight:800;cursor:pointer;font-family:inherit;margin-top:8px}
+  .btn-danger{width:100%;padding:12px;border:none;border-radius:16px;background:#fef2f2;color:#dc2626;font-weight:800;cursor:pointer;font-family:inherit;margin-top:8px}
+  .chips{display:flex;gap:7px;overflow-x:auto;padding:3px 0 10px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{border:1.5px solid var(--line);background:var(--card);color:var(--text);padding:7px 14px;border-radius:99px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit}
+  .chip.active{background:#0f172a;color:#fff;border-color:#0f172a}
+  body.dark .chip.active{background:#10b981;border-color:#10b981}
+  .search{width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:15px;font-size:14px;font-family:inherit;margin-bottom:10px;background:var(--card);color:var(--text);outline:none}
+  .search:focus{border-color:#10b981}
+  .toast{position:fixed;bottom:170px;left:50%;transform:translateX(-50%) translateY(20px);background:#0f172a;color:#fff;padding:11px 19px;border-radius:99px;font-size:13px;font-weight:700;z-index:80;opacity:0;pointer-events:none;transition:.3s;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .settings-row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--line);gap:10px}
+  .settings-row:last-child{border:none}
+  .settings-row b{font-size:13px}
+  .settings-row p{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.6}
+  .install-banner{margin:0 16px 14px;background:#fffbeb;border:1px solid #fde68a;border-radius:18px;padding:12px 14px;font-size:12px;line-height:1.7;color:#92400e}
+  body.dark .install-banner{background:#451a03;color:#fde68a;border-color:#92400e}
+  .acc-scroll{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 8px;scrollbar-width:none}
+  .acc-scroll::-webkit-scrollbar{display:none}
+  .acc-card{min-width:150px;border-radius:20px;padding:14px;color:#fff;position:relative;overflow:hidden;flex-shrink:0}
+  .acc-card .an{font-size:12px;opacity:.9;font-weight:700}
+  .acc-card .ab{font-size:17px;font-weight:900;margin-top:5px}
+  .acc-card .at{font-size:10px;opacity:.75;margin-top:2px}
+  .alert-item{display:flex;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}
+  .alert-item:last-child{border:none}
+  .menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+  .menu-tile{border:none;background:var(--card);border-radius:22px;padding:18px 6px;box-shadow:var(--shadow);cursor:pointer;font-family:inherit;color:var(--text);border:1px solid var(--line)}
+  .menu-tile .mi{width:48px;height:48px;margin:0 auto 7px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:23px}
+  .menu-tile span{font-size:12px;font-weight:800}
+  .menu-tile small{display:block;font-size:10px;color:var(--muted);margin-top:3px;font-weight:400}
+  .cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .cal-head button{width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer;font-size:16px}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+  .cal-dow{font-size:10px;color:var(--muted);font-weight:800;padding:5px 0}
+  .cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:12px;font-size:12px;cursor:pointer;border:1px solid transparent;position:relative}
+  .cal-day.today{border-color:#10b981;font-weight:900}
+  .cal-day.selected{background:#ecfdf5;border-color:#10b981}
+  body.dark .cal-day.selected{background:#064e3b}
+  .cal-day.other{opacity:.3}
+  .cal-dots{display:flex;gap:2px;margin-top:2px}
+  .cal-dots i{width:5px;height:5px;border-radius:50%;display:block}
+  .lock-screen{position:fixed;inset:0;background:linear-gradient(160deg,#0f172a,#065f46);z-index:100;display:none;flex-direction:column;align-items:center;justify-content:center;color:#fff;padding:24px}
+  .lock-screen.open{display:flex}
+  .lock-dots{display:flex;gap:12px;margin:18px 0 24px}
+  .lock-dots i{width:15px;height:15px;border-radius:50%;border:2px solid rgba(255,255,255,.6);display:block}
+  .lock-dots i.filled{background:#fff;border-color:#fff}
+  .pin-pad{display:grid;grid-template-columns:repeat(3,72px);gap:12px}
+  .pin-pad button{width:72px;height:72px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;font-size:24px;font-weight:800;cursor:pointer;font-family:inherit}
+  .pin-pad button:active{background:rgba(255,255,255,.3)}
+  .shake{animation:shake .4s}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .badge{font-size:10px;font-weight:800;padding:3px 9px;border-radius:99px}
+  .badge.red{background:#fef2f2;color:#dc2626}.badge.green{background:#ecfdf5;color:#059669}.badge.amber{background:#fffbeb;color:#d97706}.badge.gray{background:var(--bg);color:var(--muted)}
+  .switch{position:relative;width:50px;height:28px;flex-shrink:0;cursor:pointer}
+  .switch input{display:none}
+  .switch .track{position:absolute;inset:0;background:#cbd5e1;border-radius:99px;transition:.2s}
+  .switch .track::after{content:"";position:absolute;top:3px;right:3px;width:22px;height:22px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+  .switch input:checked + .track{background:#10b981}
+  .switch input:checked + .track::after{transform:translateX(-22px)}
+
+  .auth-screen{position:fixed;inset:0;background:linear-gradient(160deg,#0f172a,#065f46);z-index:90;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+  .auth-card{background:var(--card);color:var(--text);width:100%;max-width:400px;border-radius:28px;padding:26px 22px;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+  canvas{max-width:100%}
+  .sms-preview{background:var(--bg);border:2px dashed var(--line);border-radius:16px;padding:13px;font-size:13px;line-height:1.8;margin-bottom:12px;white-space:pre-wrap;word-break:break-word}
+</style>
+</head>
+<body>
+
+
+<!-- Auth Screen -->
+<div class="auth-screen" id="authScreen" style="display:none">
+  <div class="auth-card">
+    <div style="font-size:52px;text-align:center">💰</div>
+    <h2 style="text-align:center;margin:8px 0 4px">مالیار پرو</h2>
+    <p style="text-align:center;color:var(--muted);font-size:12px;margin-bottom:18px">مدیریت مالی شخصی — اکانت شما، داده‌های شما</p>
+    <div class="type-toggle">
+      <button id="authTabLogin" class="active in" onclick="switchAuthTab('login')">ورود</button>
+      <button id="authTabRegister" onclick="switchAuthTab('register')">ساخت اکانت</button>
+    </div>
+    <div id="loginForm">
+      <div class="field"><label>نام کاربری (یوزرنیم)</label><input type="text" id="loginUsername" placeholder="مثلاً sara یا ali123" dir="ltr" style="text-align:left"></div>
+      <div class="field"><label>رمز عبور</label><input type="password" id="loginPass" placeholder="رمز اکانت شما"></div>
+      <button class="btn-primary" onclick="doLogin()">ورود به اکانت من ✓</button>
+      <button class="btn-secondary" onclick="loginWithFaceId()">🙂 ورود با Face ID</button>
+      <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.7">هر یوزرنیم = یک اکانت جدا با داده‌های جدا و خصوصی</p>
+    </div>
+    <div id="registerForm" style="display:none">
+      <div class="field"><label>نام شما</label><input type="text" id="regName" placeholder="مثلاً سارا"></div>
+      <div class="field"><label>نام کاربری (یوزرنیم)</label><input type="text" id="regUsername" placeholder="مثلاً sara یا ali123" dir="ltr" style="text-align:left"></div>
+      <div class="field"><label>رمز عبور (حداقل ۴ کاراکتر)</label><input type="password" id="regPass" placeholder="یک رمز برای خودت انتخاب کن"></div>
+      <div class="field"><label>تکرار رمز عبور</label><input type="password" id="regPass2" placeholder="رمز را دوباره بنویس"></div>
+      <label style="display:flex;gap:8px;align-items:center;font-size:12px;margin-bottom:12px;cursor:pointer"><input type="checkbox" id="regEmpty" checked> شروع از صفر — بدون داده نمونه (خالی)</label>
+      <button class="btn-primary" onclick="doRegister()">ساخت اکانت و شروع ✓</button>
+      <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.7">🔒 رمز فقط روی همین گوشی ذخیره می‌شود</p>
+    </div>
+  </div>
+</div>
+
+<!-- Lock Screen -->
+<div class="lock-screen" id="lockScreen">
+  <div style="font-size:52px">🔒</div>
+  <h2 style="margin-top:10px">مالیار پرو</h2>
+  <p style="opacity:.8;font-size:13px;margin-top:5px">رمز عبور را وارد کنید</p>
+  <div class="lock-dots" id="lockDots"><i></i><i></i><i></i><i></i></div>
+  <div class="pin-pad" id="pinPad"></div>
+</div>
+
+<div class="phone">
+  <div class="header">
+    <div><h1 id="greeting">سلام 👋</h1><p id="todayDate"></p></div>
+    <div class="avatar" id="avatarLetter" onclick="switchView('settings')">م</div>
+  </div>
+
+  <div class="install-banner"><b>📱 نصب روی آیفون:</b> دکمه اشتراک‌گذاری ⬆️ در Safari ← «افزودن به صفحه اصلی». مثل یک اپ واقعی کار می‌کند، حتی بدون اینترنت.</div>
+
+  <!-- DASHBOARD -->
+  <div class="view active" id="view-dashboard">
+    <div class="balance-card">
+      <div class="balance-label">موجودی کل همه حساب‌ها</div>
+      <div class="balance-amount" id="totalBalance">۰ تومان</div>
+      <div class="balance-sub" id="balanceSub"></div>
+      <div class="mini-stats">
+        <div class="mini-stat"><div class="t">📈 درآمد این ماه</div><div class="v green" id="monthIncome">۰</div></div>
+        <div class="mini-stat"><div class="t">📉 هزینه این ماه</div><div class="v red" id="monthExpense">۰</div></div>
+      </div>
+    </div>
+
+    <div class="section" id="alertsSection" style="display:none">
+      <div class="section-head"><h2>🔔 نیاز به توجه</h2></div>
+      <div class="card" id="alertsList"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>👛 حساب‌های من</h2><button onclick="switchView('accounts')">همه ←</button></div>
+      <div class="acc-scroll" id="dashAccounts"></div>
+    </div>
+
+    <div class="section">
+      <div class="quick">
+        <button onclick="openAddModal('out')"><div class="ic" style="background:#fef2f2">➖</div><span>هزینه</span></button>
+        <button onclick="openAddModal('in')"><div class="ic" style="background:#ecfdf5">➕</div><span>درآمد</span></button>
+        <button onclick="openTransferModal()"><div class="ic" style="background:#eff6ff">🔁</div><span>انتقال</span></button>
+        <button onclick="openSmsModal()"><div class="ic" style="background:#fdf4ff">📩</div><span>از پیامک</span></button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>📊 هزینه‌ها بر اساس دسته</h2><button onclick="switchView('stats')">آمار کامل ←</button></div>
+      <div class="card"><div class="chart-wrap"><canvas id="donutCanvas" width="150" height="150" style="width:125px;height:125px;flex-shrink:0"></canvas><div class="legend" id="donutLegend"></div></div></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>🕐 تراکنش‌های اخیر</h2><button onclick="switchView('tx')">همه ←</button></div>
+      <div class="card" id="recentTx"></div>
+    </div>
+  </div>
+
+  <!-- TRANSACTIONS -->
+  <div class="view" id="view-tx">
+    <div class="section">
+      <div class="section-head"><h2>💳 تراکنش‌ها</h2><button onclick="openAddModal('out')">+ جدید</button></div>
+      <input class="search" id="searchInput" placeholder="🔍 جستجو..." oninput="renderTransactions()">
+      <div class="chips" id="filterChips">
+        <button class="chip active" onclick="setFilter('all',this)">همه</button>
+        <button class="chip" onclick="setFilter('in',this)">درآمد</button>
+        <button class="chip" onclick="setFilter('out',this)">هزینه</button>
+        <button class="chip" onclick="setFilter('transfer',this)">انتقال</button>
+      </div>
+      <select id="txAccountFilter" class="search" onchange="renderTransactions()"><option value="all">همه حساب‌ها</option></select>
+      <div class="card" id="allTx"></div>
+    </div>
+  </div>
+
+  <!-- ACCOUNTS -->
+  <div class="view" id="view-accounts">
+    <div class="section">
+      <div class="section-head"><h2>👛 حساب‌ها و کیف پول‌ها</h2><button onclick="openAccountModal()">+ حساب جدید</button></div>
+      <div class="card" style="margin-bottom:12px;text-align:center">
+        <div style="font-size:12px;color:var(--muted)">مجموع موجودی</div>
+        <div style="font-size:24px;font-weight:900" id="accountsTotal">۰ تومان</div>
+        <button class="btn-secondary" style="margin-top:12px" onclick="openTransferModal()">🔁 انتقال بین حساب‌ها</button>
+      </div>
+      <div id="accountsList"></div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="view" id="view-stats">
+    <div class="section">
+      <div class="section-head"><h2>📊 آمار و گزارش‌ها</h2><button onclick="exportCSV()">خروجی CSV ⬇️</button></div>
+      <div class="chips" id="periodChips">
+        <button class="chip" onclick="setPeriod(7,this)">۷ روز اخیر</button>
+        <button class="chip active" onclick="setPeriod(30,this)">این ماه</button>
+        <button class="chip" onclick="setPeriod(365,this)">این سال</button>
+        <button class="chip" onclick="setPeriod(0,this)">همه</button>
+      </div>
+      <div class="card" style="margin-bottom:12px">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center">
+          <div><div style="font-size:10px;color:var(--muted)">درآمد</div><div style="font-weight:900;color:#059669;font-size:13px" id="statIncome">۰</div></div>
+          <div><div style="font-size:10px;color:var(--muted)">هزینه</div><div style="font-weight:900;color:#dc2626;font-size:13px" id="statExpense">۰</div></div>
+          <div><div style="font-size:10px;color:var(--muted)">پس‌انداز</div><div style="font-weight:900;font-size:13px" id="statSaving">۰٪</div></div>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:12px" id="insightsCard"></div>
+      <div class="card" style="margin-bottom:12px">
+        <h3 style="font-size:13px;margin-bottom:10px">🍩 تفکیک هزینه‌ها</h3>
+        <div class="chart-wrap"><canvas id="donutCanvas2" width="150" height="150" style="width:125px;height:125px;flex-shrink:0"></canvas><div class="legend" id="donutLegend2"></div></div>
+      </div>
+      <div class="card"><h3 style="font-size:13px;margin-bottom:4px">📅 روند هزینه‌ها</h3><div class="bars" id="trendBars" style="height:150px"></div></div>
+    </div>
+  </div>
+
+  <!-- MORE MENU -->
+  <div class="view" id="view-more">
+    <div class="section">
+      <div class="section-head"><h2>☰ همه امکانات</h2></div>
+      <div class="menu-grid">
+        <button class="menu-tile" onclick="switchView('budget')"><div class="mi" style="background:#eff6ff">🎯</div><span>بودجه</span><small>سقف هزینه ماهانه</small></button>
+        <button class="menu-tile" onclick="switchView('goals')"><div class="mi" style="background:#fdf4ff">🏆</div><span>اهداف</span><small>پس‌انداز آینده</small></button>
+        <button class="menu-tile" onclick="switchView('people')"><div class="mi" style="background:#ecfdf5">👥</div><span>اشخاص</span><small>بدهی و طلب</small></button>
+        <button class="menu-tile" onclick="switchView('cheques')"><div class="mi" style="background:#fffbeb">🧾</div><span>چک‌ها</span><small>سررسید چک</small></button>
+        <button class="menu-tile" onclick="switchView('installments')"><div class="mi" style="background:#fef2f2">💳</div><span>اقساط</span><small>وام و قسط‌ها</small></button>
+        <button class="menu-tile" onclick="switchView('reminders')"><div class="mi" style="background:#f0fdf4">⏰</div><span>یادآوری</span><small>پرداخت‌های مهم</small></button>
+        <button class="menu-tile" onclick="switchView('calendar')"><div class="mi" style="background:#ecfeff">📅</div><span>تقویم</span><small>نمای ماهانه</small></button>
+        <button class="menu-tile" onclick="switchView('categories')"><div class="mi" style="background:#f5f3ff">🏷️</div><span>دسته‌ها</span><small>دسته دلخواه</small></button>
+        <button class="menu-tile" onclick="switchView('settings')"><div class="mi" style="background:#f8fafc">⚙️</div><span>تنظیمات</span><small>رمز، پشتیبان...</small></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUDGET -->
+  <div class="view" id="view-budget">
+    <div class="section">
+      <div class="section-head"><h2>🎯 بودجه ماهانه</h2><button onclick="openBudgetModal()">+ تنظیم</button></div>
+      <div class="card" id="budgetList"></div>
+    </div>
+  </div>
+
+  <!-- GOALS -->
+  <div class="view" id="view-goals">
+    <div class="section">
+      <div class="section-head"><h2>🏆 اهداف پس‌انداز</h2><button onclick="openGoalModal()">+ هدف جدید</button></div>
+      <div id="goalsList"></div>
+    </div>
+  </div>
+
+  <!-- PEOPLE -->
+  <div class="view" id="view-people">
+    <div class="section">
+      <div class="section-head"><h2>👥 اشخاص — بدهی و طلب</h2><button onclick="openPersonModal()">+ شخص جدید</button></div>
+      <div id="peopleList"></div>
+      <button class="btn-primary" style="margin-top:6px" onclick="openDebtModal()">➕ ثبت قرض (دادن / گرفتن)</button>
+      <div class="section-head" style="margin-top:20px"><h2>📋 همه قرض‌ها</h2></div>
+      <div class="card" id="debtsList"></div>
+    </div>
+  </div>
+
+  <!-- CHEQUES -->
+  <div class="view" id="view-cheques">
+    <div class="section">
+      <div class="section-head"><h2>🧾 چک‌ها</h2><button onclick="openChequeModal()">+ چک جدید</button></div>
+      <div class="chips" id="chequeChips">
+        <button class="chip active" onclick="setChequeFilter('all',this)">همه</button>
+        <button class="chip" onclick="setChequeFilter('pending',this)">در انتظار</button>
+        <button class="chip" onclick="setChequeFilter('cleared',this)">پاس شده</button>
+        <button class="chip" onclick="setChequeFilter('bounced',this)">برگشتی</button>
+      </div>
+      <div id="chequesList"></div>
+    </div>
+  </div>
+
+  <!-- INSTALLMENTS -->
+  <div class="view" id="view-installments">
+    <div class="section">
+      <div class="section-head"><h2>💳 اقساط و وام‌ها</h2><button onclick="openInstallmentModal()">+ قسط جدید</button></div>
+      <div id="installmentsList"></div>
+    </div>
+  </div>
+
+  <!-- REMINDERS -->
+  <div class="view" id="view-reminders">
+    <div class="section">
+      <div class="section-head"><h2>⏰ یادآوری‌ها</h2><button onclick="openReminderModal()">+ یادآوری جدید</button></div>
+      <div class="card" id="remindersList"></div>
+    </div>
+  </div>
+
+  <!-- CALENDAR -->
+  <div class="view" id="view-calendar">
+    <div class="section">
+      <div class="section-head"><h2>📅 تقویم مالی</h2></div>
+      <div class="card">
+        <div class="cal-head">
+          <button onclick="changeMonth(-1)">›</button>
+          <b id="calTitle"></b>
+          <button onclick="changeMonth(1)">‹</button>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+      </div>
+      <div class="section-head" style="margin-top:16px"><h2 id="calDayTitle">تراکنش‌های روز</h2></div>
+      <div class="card" id="calDayTx"></div>
+    </div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="view" id="view-categories">
+    <div class="section">
+      <div class="section-head"><h2>🏷️ دسته‌بندی‌ها</h2><button onclick="openCategoryModal()">+ دسته جدید</button></div>
+      <div class="card" id="catsList"></div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="view" id="view-settings">
+    <div class="section">
+      <div class="section-head"><h2>⚙️ تنظیمات</h2></div>
+      <div class="card">
+        <div class="settings-row">
+          <div><b>نام شما</b><p>شخصی‌سازی برنامه</p></div>
+          <input id="nameInput" style="padding:8px 10px;border:2px solid var(--line);border-radius:12px;font-family:inherit;width:120px;text-align:center;background:var(--input);color:var(--text)" placeholder="نام شما" onchange="saveName()">
+        </div>
+        <div class="settings-row">
+          <div><b>👤 اکانت فعلی</b><p id="currentAccountInfo">—</p></div>
+          <button class="budget-edit" onclick="doLogout()">خروج</button>
+        </div>
+        <div class="settings-row">
+          <div><b>🙂 Face ID</b><p id="faceIdStatus">فعال نیست</p></div>
+          <button class="budget-edit" onclick="registerFaceId()">فعال‌سازی</button>
+        </div>
+        <div class="settings-row">
+          <div><b>🌙 حالت تاریک</b><p>راحت‌تر برای چشم در شب</p></div>
+          <label class="switch"><input type="checkbox" id="darkToggle" onchange="toggleDark()"><span class="track"></span></label>
+        </div>
+        <div class="settings-row">
+          <div><b>🔒 قفل برنامه (رمز)</b><p id="pinStatus">بدون رمز — هر کسی می‌تواند باز کند</p></div>
+          <button class="budget-edit" onclick="openPinModal()">تنظیم</button>
+        </div>
+        <div class="settings-row">
+          <div><b>پشتیبان JSON</b><p>دانلود کامل همه داده‌ها</p></div>
+          <button class="budget-edit" onclick="exportData()">دانلود ⬇️</button>
+        </div>
+        <div class="settings-row">
+          <div><b>خروجی CSV (اکسل)</b><p>تراکنش‌ها برای اکسل</p></div>
+          <button class="budget-edit" onclick="exportCSV()">دانلود ⬇️</button>
+        </div>
+        <div class="settings-row">
+          <div><b>ورود پشتیبان</b><p>بازیابی از فایل JSON</p></div>
+          <label class="budget-edit" style="cursor:pointer">انتخاب فایل<input type="file" accept=".json" style="display:none" onchange="importData(event)"></label>
+        </div>
+        <div class="settings-row">
+          <div><b>داده نمونه</b><p>افزودن اطلاعات نمایشی کامل</p></div>
+          <button class="budget-edit" onclick="seedDemo(true)">افزودن</button>
+        </div>
+        <div class="settings-row">
+          <div><b>حذف همه داده‌ها</b><p>بازگشت به حالت اولیه</p></div>
+          <button class="budget-edit" style="color:#dc2626" onclick="resetAll()">حذف 🗑️</button>
+        </div>
+      </div>
+      <p style="text-align:center;font-size:11px;color:var(--muted);margin-top:14px">مالیار پرو نسخه ۲.۰ — داده‌ها فقط روی گوشی شما 🔒</p>
+    </div>
+  </div>
+
+  <button class="fab" onclick="openAddModal('out')">＋</button>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-view="dashboard" onclick="switchView('dashboard')"><span class="ni">🏠</span>خانه</button>
+    <button class="nav-btn" data-view="tx" onclick="switchView('tx')"><span class="ni">💳</span>تراکنش‌ها</button>
+    <button class="nav-btn" data-view="accounts" onclick="switchView('accounts')"><span class="ni">👛</span>حساب‌ها</button>
+    <button class="nav-btn" data-view="stats" onclick="switchView('stats')"><span class="ni">📊</span>آمار</button>
+    <button class="nav-btn" data-view="more" onclick="switchView('more')"><span class="ni">☰</span>بیشتر</button>
+  </nav>
+</div>
+
+<!-- TX MODAL -->
+<div class="modal-overlay" id="txModal"><div class="modal">
+  <h3 id="txModalTitle">➕ تراکنش جدید</h3>
+  <div class="type-toggle">
+    <button id="btnOut" class="active out" onclick="setTxType('out')">🔴 هزینه</button>
+    <button id="btnIn" onclick="setTxType('in')">🟢 درآمد</button>
+  </div>
+  <div class="field"><label>مبلغ (تومان)</label><input type="number" id="txAmount" inputmode="numeric" placeholder="مثلاً ۲۵۰۰۰۰"></div>
+  <div class="field"><label>عنوان</label><input type="text" id="txTitle" placeholder="مثلاً خرید سوپرمارکت"></div>
+  <div class="field"><label>دسته‌بندی</label><div class="cat-grid" id="catGrid"></div></div>
+  <div class="field"><label>حساب</label><select id="txAccount"></select></div>
+  <div class="field"><label>تاریخ</label><input type="date" id="txDate"></div>
+  <button class="btn-primary" onclick="saveTransaction()">ثبت تراکنش ✓</button>
+  <button class="btn-secondary" onclick="closeModal('txModal')">انصراف</button>
+</div></div>
+
+<!-- ACCOUNT MODAL -->
+<div class="modal-overlay" id="accountModal"><div class="modal">
+  <h3>👛 حساب جدید</h3>
+  <div class="field"><label>نام حساب</label><input type="text" id="accName" placeholder="مثلاً کارت ملی"></div>
+  <div class="field"><label>نوع</label><select id="accType"><option value="cash">💵 نقدی</option><option value="bank">💳 کارت بانکی</option><option value="savings">🏦 پس‌انداز</option><option value="other">📦 سایر</option></select></div>
+  <div class="field"><label>موجودی اولیه (تومان)</label><input type="number" id="accInitial" inputmode="numeric" placeholder="۰"></div>
+  <button class="btn-primary" onclick="saveAccount()">ثبت حساب ✓</button>
+  <button class="btn-secondary" onclick="closeModal('accountModal')">انصراف</button>
+</div></div>
+
+<!-- TRANSFER MODAL -->
+<div class="modal-overlay" id="transferModal"><div class="modal">
+  <h3>🔁 انتقال بین حساب‌ها</h3>
+  <div class="field"><label>از حساب</label><select id="trFrom"></select></div>
+  <div class="field"><label>به حساب</label><select id="trTo"></select></div>
+  <div class="field"><label>مبلغ (تومان)</label><input type="number" id="trAmount" inputmode="numeric" placeholder="مبلغ انتقال"></div>
+  <div class="field"><label>تاریخ</label><input type="date" id="trDate"></div>
+  <button class="btn-primary" onclick="saveTransfer()">انجام انتقال ✓</button>
+  <button class="btn-secondary" onclick="closeModal('transferModal')">انصراف</button>
+</div></div>
+
+<!-- SMS MODAL -->
+<div class="modal-overlay" id="smsModal"><div class="modal">
+  <h3>📩 ثبت از روی پیامک بانکی</h3>
+  <p style="font-size:12px;color:var(--muted);line-height:1.8;margin-bottom:12px">متن پیامک بانکی را اینجا بچسبانید (کپی ← پیست). برنامه خودش مبلغ و نوع تراکنش را تشخیص می‌دهد.</p>
+  <div class="field"><textarea id="smsText" rows="5" placeholder="مثلاً: برداشت ۲٬۵۰۰٬۰۰۰ ریال از کارت ... بابت خرید ..."></textarea></div>
+  <button class="btn-secondary" style="margin:0 0 10px" onclick="parseSms()">🔍 تشخیص خودکار</button>
+  <div id="smsPreview" style="display:none">
+    <div class="sms-preview" id="smsPreviewText"></div>
+    <div class="field"><label>حساب</label><select id="smsAccount"></select></div>
+    <button class="btn-primary" onclick="confirmSms()">ثبت تراکنش ✓</button>
+  </div>
+  <button class="btn-secondary" onclick="closeModal('smsModal')">بستن</button>
+</div></div>
+
+<!-- BUDGET MODAL -->
+<div class="modal-overlay" id="budgetModal"><div class="modal">
+  <h3>🎯 تنظیم بودجه</h3>
+  <div class="field"><label>دسته</label><select id="budgetCat"></select></div>
+  <div class="field"><label>سقف ماهانه (تومان)</label><input type="number" id="budgetAmount" inputmode="numeric" placeholder="مثلاً ۳۰۰۰۰۰۰"></div>
+  <button class="btn-primary" onclick="saveBudget()">ذخیره ✓</button>
+  <button class="btn-secondary" onclick="closeModal('budgetModal')">انصراف</button>
+</div></div>
+
+<!-- GOAL MODAL -->
+<div class="modal-overlay" id="goalModal"><div class="modal">
+  <h3>🏆 هدف جدید</h3>
+  <div class="field"><label>نام هدف</label><input type="text" id="goalTitle" placeholder="مثلاً خرید آیفون"></div>
+  <div class="field"><label>مبلغ هدف (تومان)</label><input type="number" id="goalTarget" inputmode="numeric"></div>
+  <div class="field"><label>مبلغ فعلی (تومان)</label><input type="number" id="goalCurrent" inputmode="numeric" placeholder="۰"></div>
+  <button class="btn-primary" onclick="saveGoal()">ثبت ✓</button>
+  <button class="btn-secondary" onclick="closeModal('goalModal')">انصراف</button>
+</div></div>
+
+<!-- PERSON MODAL -->
+<div class="modal-overlay" id="personModal"><div class="modal">
+  <h3>👤 شخص جدید</h3>
+  <div class="field"><label>نام</label><input type="text" id="personName" placeholder="نام شخص"></div>
+  <div class="field"><label>شماره تماس (اختیاری)</label><input type="tel" id="personPhone" placeholder="09..."></div>
+  <button class="btn-primary" onclick="savePerson()">ثبت ✓</button>
+  <button class="btn-secondary" onclick="closeModal('personModal')">انصراف</button>
+</div></div>
+
+<!-- DEBT MODAL -->
+<div class="modal-overlay" id="debtModal"><div class="modal">
+  <h3>➕ ثبت قرض</h3>
+  <div class="type-toggle">
+    <button id="debtLend" class="active in" onclick="setDebtType('lend')">🟢 قرض دادم (طلب)</button>
+    <button id="debtBorrow" onclick="setDebtType('borrow')">🔴 قرض گرفتم (بدهی)</button>
+  </div>
+  <div class="field"><label>شخص</label><select id="debtPerson"></select></div>
+  <div class="field"><label>مبلغ (تومان)</label><input type="number" id="debtAmount" inputmode="numeric"></div>
+  <div class="field"><label>تاریخ</label><input type="date" id="debtDate"></div>
+  <div class="field"><label>توضیح (اختیاری)</label><input type="text" id="debtNote" placeholder="بابت..."></div>
+  <button class="btn-primary" onclick="saveDebt()">ثبت قرض ✓</button>
+  <button class="btn-secondary" onclick="closeModal('debtModal')">انصراف</button>
+</div></div>
+
+<!-- CHEQUE MODAL -->
+<div class="modal-overlay" id="chequeModal"><div class="modal">
+  <h3>🧾 چک جدید</h3>
+  <div class="type-toggle">
+    <button id="chqIn" class="active in" onclick="setChequeType('in')">🟢 دریافتی</button>
+    <button id="chqOut" onclick="setChequeType('out')">🔴 پرداختی</button>
+  </div>
+  <div class="field"><label>شماره چک</label><input type="text" id="chqNumber" placeholder="شماره چک"></div>
+  <div class="field"><label>مبلغ (تومان)</label><input type="number" id="chqAmount" inputmode="numeric"></div>
+  <div class="field"><label>تاریخ سررسید</label><input type="date" id="chqDate"></div>
+  <div class="field"><label>طرف (بانک / شخص)</label><input type="text" id="chqPerson" placeholder="مثلاً بانک ملی / آقای رضایی"></div>
+  <button class="btn-primary" onclick="saveCheque()">ثبت چک ✓</button>
+  <button class="btn-secondary" onclick="closeModal('chequeModal')">انصراف</button>
+</div></div>
+
+<!-- INSTALLMENT MODAL -->
+<div class="modal-overlay" id="installmentModal"><div class="modal">
+  <h3>💳 قسط / وام جدید</h3>
+  <div class="field"><label>عنوان</label><input type="text" id="instTitle" placeholder="مثلاً قسط وام مسکن"></div>
+  <div class="field"><label>مبلغ هر قسط (تومان)</label><input type="number" id="instAmount" inputmode="numeric"></div>
+  <div class="field"><label>تعداد کل اقساط</label><input type="number" id="instCount" inputmode="numeric" placeholder="مثلاً ۱۲"></div>
+  <div class="field"><label>تاریخ اولین قسط</label><input type="date" id="instDate"></div>
+  <button class="btn-primary" onclick="saveInstallment()">ثبت ✓</button>
+  <button class="btn-secondary" onclick="closeModal('installmentModal')">انصراف</button>
+</div></div>
+
+<!-- REMINDER MODAL -->
+<div class="modal-overlay" id="reminderModal"><div class="modal">
+  <h3>⏰ یادآوری جدید</h3>
+  <div class="field"><label>عنوان</label><input type="text" id="remTitle" placeholder="مثلاً پرداخت اجاره"></div>
+  <div class="field"><label>تاریخ</label><input type="date" id="remDate"></div>
+  <div class="field"><label>مبلغ (اختیاری)</label><input type="number" id="remAmount" inputmode="numeric"></div>
+  <button class="btn-primary" onclick="saveReminder()">ثبت ✓</button>
+  <button class="btn-secondary" onclick="closeModal('reminderModal')">انصراف</button>
+</div></div>
+
+<!-- CATEGORY MODAL -->
+<div class="modal-overlay" id="categoryModal"><div class="modal">
+  <h3>🏷️ دسته جدید</h3>
+  <div class="field"><label>نام دسته</label><input type="text" id="newCatName" placeholder="مثلاً اجاره خانه"></div>
+  <div class="field"><label>آیکون (یک ایموجی)</label><input type="text" id="newCatIcon" placeholder="🏠" maxlength="4" style="text-align:center;font-size:22px"></div>
+  <div class="field"><label>نوع</label><select id="newCatType"><option value="out">هزینه</option><option value="in">درآمد</option></select></div>
+  <button class="btn-primary" onclick="saveCategory()">ثبت دسته ✓</button>
+  <button class="btn-secondary" onclick="closeModal('categoryModal')">انصراف</button>
+</div></div>
+
+<!-- PIN MODAL -->
+<div class="modal-overlay" id="pinModal"><div class="modal">
+  <h3>🔒 تنظیم رمز برنامه</h3>
+  <p style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:12px">رمز ۴ رقمی انتخاب کنید. برای حذف رمز، خالی بگذارید.</p>
+  <div class="field"><label>رمز جدید (۴ رقم)</label><input type="password" id="pinInput" inputmode="numeric" maxlength="4" placeholder="••••" style="text-align:center;letter-spacing:8px;font-size:20px"></div>
+  <button class="btn-primary" onclick="savePin()">ذخیره رمز ✓</button>
+  <button class="btn-secondary" onclick="closeModal('pinModal')">انصراف</button>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ---------- Categories ----------
+const CATS_OUT = [
+  {id:'food',t:'خوراکی',i:'🍔',c:'#10b981',bg:'#ecfdf5'},
+  {id:'transport',t:'حمل‌ونقل',i:'🚗',c:'#3b82f6',bg:'#eff6ff'},
+  {id:'shopping',t:'خرید',i:'🛍️',c:'#f59e0b',bg:'#fffbeb'},
+  {id:'fun',t:'سرگرمی',i:'🎬',c:'#ec4899',bg:'#fdf2f8'},
+  {id:'bills',t:'قبوض',i:'💡',c:'#8b5cf6',bg:'#f5f3ff'},
+  {id:'health',t:'درمان',i:'🏥',c:'#ef4444',bg:'#fef2f2'},
+  {id:'edu',t:'تحصیل',i:'📚',c:'#06b6d4',bg:'#ecfeff'},
+  {id:'sport',t:'ورزش',i:'🏋️',c:'#84cc16',bg:'#f7fee7'},
+  {id:'travel',t:'سفر',i:'✈️',c:'#f97316',bg:'#fff7ed'},
+  {id:'other',t:'سایر',i:'📦',c:'#64748b',bg:'#f8fafc'},
+];
+const CATS_IN = [
+  {id:'salary',t:'حقوق',i:'💼',c:'#059669',bg:'#ecfdf5'},
+  {id:'freelance',t:'فریلنسری',i:'💻',c:'#0ea5e9',bg:'#f0f9ff'},
+  {id:'sell',t:'فروش',i:'🏷️',c:'#f59e0b',bg:'#fffbeb'},
+  {id:'gift',t:'هدیه',i:'🎁',c:'#ec4899',bg:'#fdf2f8'},
+  {id:'other_in',t:'سایر',i:'💰',c:'#64748b',bg:'#f8fafc'},
+];
+const ACC_COLORS = ['linear-gradient(135deg,#0f172a,#1e293b)','linear-gradient(135deg,#059669,#10b981)','linear-gradient(135deg,#2563eb,#06b6d4)','linear-gradient(135deg,#d97706,#f59e0b)','linear-gradient(135deg,#db2777,#ec4899)','linear-gradient(135deg,#7c3aed,#8b5cf6)'];
+const ACC_ICONS = {cash:'💵',bank:'💳',savings:'🏦',other:'📦'};
+
+let state = null;
+let currentFilter='all', txType='out', selectedCat='food';
+let debtType='lend', chequeType='in', chequeFilter='all';
+let statPeriod=30;
+let calCursor = new Date(); calCursor.setDate(1);
+let calSelected = new Date().toISOString().slice(0,10);
+let smsParsed = null;
+let pinEntry='';
+
+function uid(){ return Date.now()+Math.floor(Math.random()*10000); }
+function defaultState(){
+  return { v:2, txs:[], budgets:{}, goals:[], name:'', pin:'', dark:false,
+    accounts:[{id:1,name:'نقدی',type:'cash',initial:0},{id:2,name:'کارت بانکی',type:'bank',initial:0}],
+    people:[], debts:[], cheques:[], installments:[], reminders:[], customCats:[] };
+}
+function allCats(){ return [...CATS_OUT, ...CATS_IN, ...state.customCats]; }
+function catsByType(type){ return type==='out' ? [...CATS_OUT, ...state.customCats.filter(c=>c.type==='out')] : [...CATS_IN, ...state.customCats.filter(c=>c.type==='in')]; }
+function catById(id){ return allCats().find(c=>c.id===id) || CATS_OUT[CATS_OUT.length-1]; }
+function accById(id){ return state.accounts.find(a=>a.id===id); }
+
+const ACCOUNTS_KEY='malyar_accounts_v1';
+const DATA_PREFIX='malyar_data_';
+let currentAccount=null;
+function getAccounts(){ try{ return JSON.parse(localStorage.getItem(ACCOUNTS_KEY)||'[]'); }catch(e){ return []; } }
+function saveAccounts(list){ localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(list)); }
+function hashPw(pw,email){
+  const s=(email||'').toLowerCase().trim()+'::'+pw;
+  let h1=0xdeadbeef, h2=0x41c6ce57;
+  for(let i=0;i<s.length;i++){ const ch=s.charCodeAt(i); h1=Math.imul(h1^ch,2654435761); h2=Math.imul(h2^ch,1597334677); }
+  h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);
+  h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);
+  return (h2>>>0).toString(16).padStart(8,'0')+(h1>>>0).toString(16).padStart(8,'0');
+}
+function load(){
+  if(!currentAccount){ state=defaultState(); return false; }
+  try{ const s=localStorage.getItem(DATA_PREFIX+currentAccount.id);
+    if(s){ const old=JSON.parse(s); state=Object.assign(defaultState(), old); state.v=2;
+      if(!state.accounts || !state.accounts.length) state.accounts=defaultState().accounts;
+      state.txs.forEach(t=>{ if(!t.accountId) t.accountId=state.accounts[0].id; });
+      return true; } }catch(e){}
+  state=defaultState(); return false;
+}
+function save(){ if(currentAccount) localStorage.setItem(DATA_PREFIX+currentAccount.id, JSON.stringify(state)); }
+
+function fmt(n){ return Math.round(Number(n)||0).toLocaleString('fa-IR'); }
+function fmtShort(n){ n=Math.round(Number(n)||0); if(n>=1e9) return (n/1e9).toLocaleString('fa-IR',{maximumFractionDigits:1})+' میلیارد'; if(n>=1e6) return (n/1e6).toLocaleString('fa-IR',{maximumFractionDigits:1})+' میلیون'; return fmt(n); }
+function faDate(iso){ try{ return new Intl.DateTimeFormat('fa-IR',{weekday:'long',day:'numeric',month:'long'}).format(new Date(iso)); }catch(e){ return iso; } }
+function faDateShort(iso){ try{ return new Intl.DateTimeFormat('fa-IR',{day:'numeric',month:'short'}).format(new Date(iso)); }catch(e){ return iso; } }
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+function escapeHtml(s){ return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2300); }
+
+function seedDemo(force){
+  const now=Date.now(); const d=(daysAgo)=>new Date(now-daysAgo*864e5).toISOString().slice(0,10);
+  if(force || !state.txs.length){
+    const demo=[
+      {id:uid()+1,type:'in',amount:45000000,title:'حقوق ماهانه',cat:'salary',date:d(2),accountId:2},
+      {id:uid()+2,type:'in',amount:8000000,title:'پروژه فریلنسری',cat:'freelance',date:d(5),accountId:2},
+      {id:uid()+3,type:'out',amount:1250000,title:'خرید سوپرمارکت',cat:'food',date:d(0),accountId:1},
+      {id:uid()+4,type:'out',amount:450000,title:'بنزین',cat:'transport',date:d(1),accountId:2},
+      {id:uid()+5,type:'out',amount:890000,title:'رستوران با دوستان',cat:'food',date:d(1),accountId:2},
+      {id:uid()+6,type:'out',amount:2100000,title:'قبض برق و اینترنت',cat:'bills',date:d(3),accountId:2},
+      {id:uid()+7,type:'out',amount:3400000,title:'خرید لباس',cat:'shopping',date:d(4),accountId:2},
+      {id:uid()+8,type:'out',amount:600000,title:'سینما و کافه',cat:'fun',date:d(6),accountId:1},
+      {id:uid()+9,type:'out',amount:1500000,title:'باشگاه ورزشی',cat:'sport',date:d(7),accountId:2},
+      {id:uid()+10,type:'out',amount:980000,title:'داروخانه',cat:'health',date:d(8),accountId:1},
+      {id:uid()+11,type:'out',amount:720000,title:'تاکسی',cat:'transport',date:d(9),accountId:1},
+      {id:uid()+12,type:'out',amount:2600000,title:'خرید کتاب و دوره',cat:'edu',date:d(10),accountId:2},
+      {id:uid()+13,type:'out',amount:1100000,title:'خرید سوپرمارکت',cat:'food',date:d(11),accountId:1},
+      {id:uid()+14,type:'out',amount:5200000,title:'بلیط سفر',cat:'travel',date:d(14),accountId:2},
+      {id:uid()+15,type:'in',amount:3000000,title:'فروش وسایل قدیمی',cat:'sell',date:d(12),accountId:1},
+    ];
+    state.txs=[...demo,...state.txs];
+  }
+  if(force || !Object.keys(state.budgets).length) state.budgets={food:5000000,transport:2000000,shopping:4000000,fun:1500000,bills:3000000};
+  if(force || !state.goals.length) state.goals=[{id:uid()+20,title:'خرید آیفون جدید 📱',target:60000000,current:18000000},{id:uid()+21,title:'سفر تابستانی ✈️',target:40000000,current:9500000}];
+  if(force || !state.people.length){ state.people=[{id:uid()+30,name:'علی رضایی',phone:'0912...'},{id:uid()+31,name:'سارا محمدی',phone:''}];
+    state.debts=[{id:uid()+32,personId:state.people[0].id,type:'lend',amount:5000000,date:d(15),paid:false,note:'قرض برای خرید گوشی'},{id:uid()+33,personId:state.people[1].id,type:'borrow',amount:2000000,date:d(20),paid:false,note:''}]; }
+  if(force || !state.cheques.length) state.cheques=[{id:uid()+40,number:'123456',amount:10000000,date:d(-5),type:'in',person:'شرکت آریا',status:'pending'},{id:uid()+41,number:'789012',amount:3500000,date:d(-12),type:'out',person:'بانک ملی',status:'pending'}];
+  if(force || !state.installments.length) state.installments=[{id:uid()+50,title:'قسط وام خودرو',amount:8000000,totalCount:12,paidCount:3,startDate:d(30)}];
+  if(force || !state.reminders.length) state.reminders=[{id:uid()+60,title:'پرداخت اجاره خانه',date:d(-3),amount:15000000,done:false},{id:uid()+61,title:'تمدید بیمه خودرو',date:d(-10),amount:0,done:false}];
+  save(); if(force) toast('✅ داده نمونه کامل اضافه شد');
+}
+
+// ---------- Calculations ----------
+function accountBalance(accId){
+  const acc=accById(accId); if(!acc) return 0;
+  let bal=Number(acc.initial)||0;
+  state.txs.forEach(t=>{
+    if(t.type==='transfer'){ if(t.fromId===accId) bal-=Number(t.amount)||0; if(t.toId===accId) bal+=Number(t.amount)||0; }
+    else if(t.accountId===accId){ bal += t.type==='in' ? (Number(t.amount)||0) : -(Number(t.amount)||0); }
+  });
+  return bal;
+}
+function totalBalance(){ return state.accounts.reduce((s,a)=>s+accountBalance(a.id),0); }
+function monthTotals(){
+  const now=new Date(), m=now.getMonth(), y=now.getFullYear(); let income=0,expense=0;
+  state.txs.forEach(t=>{ const dt=new Date(t.date); if(dt.getMonth()===m&&dt.getFullYear()===y){ if(t.type==='in') income+=Number(t.amount)||0; else if(t.type==='out') expense+=Number(t.amount)||0; } });
+  return {income,expense};
+}
+function periodTxs(days){
+  if(!days) return state.txs.filter(t=>t.type!=='transfer');
+  const cutoff=new Date(); cutoff.setDate(cutoff.getDate()-days);
+  return state.txs.filter(t=>t.type!=='transfer' && new Date(t.date)>=cutoff);
+}
+function nextInstallmentDate(inst){
+  const dt=new Date(inst.startDate); dt.setMonth(dt.getMonth()+inst.paidCount); return dt.toISOString().slice(0,10);
+}
+
+// ---------- Rendering ----------
+function txHTML(t){
+  if(t.type==='transfer'){
+    const from=accById(t.fromId), to=accById(t.toId);
+    return `<div class="tx"><div class="tx-icon" style="background:#eff6ff">🔁</div><div class="tx-info"><div class="tx-title">انتقال: ${escapeHtml(from?from.name:'؟')} ← ${escapeHtml(to?to.name:'؟')}</div><div class="tx-date">${faDateShort(t.date)}</div></div><div class="tx-amount tr">${fmt(t.amount)}</div><button class="tx-del" onclick="deleteTx(${t.id})">🗑️</button></div>`;
+  }
+  const c=catById(t.cat); const acc=accById(t.accountId); const isIn=t.type==='in';
+  return `<div class="tx"><div class="tx-icon" style="background:${c.bg}">${c.i}</div><div class="tx-info"><div class="tx-title">${escapeHtml(t.title||c.t)}</div><div class="tx-date">${c.t} • ${faDateShort(t.date)}${acc?' • '+escapeHtml(acc.name):''}</div></div><div class="tx-amount ${isIn?'in':'out'}">${isIn?'+':'−'} ${fmt(t.amount)}</div><button class="tx-del" onclick="deleteTx(${t.id})">🗑️</button></div>`;
+}
+
+function renderDashboard(){
+  const bal=totalBalance(), m=monthTotals();
+  document.getElementById('totalBalance').textContent=fmt(bal)+' تومان';
+  document.getElementById('balanceSub').textContent=bal>=0?'✅ وضعیت مالی مثبت است':'⚠️ هزینه‌ها بیشتر از درآمد است';
+  document.getElementById('monthIncome').textContent=fmt(m.income)+' تومان';
+  document.getElementById('monthExpense').textContent=fmt(m.expense)+' تومان';
+  document.getElementById('dashAccounts').innerHTML=state.accounts.map((a,i)=>`<div class="acc-card" style="background:${ACC_COLORS[i%ACC_COLORS.length]}"><div class="an">${ACC_ICONS[a.type]||'📦'} ${escapeHtml(a.name)}</div><div class="ab">${fmt(accountBalance(a.id))}</div><div class="at">تومان</div></div>`).join('');
+  renderAlerts();
+  const recent=[...state.txs].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,5);
+  document.getElementById('recentTx').innerHTML=recent.length?recent.map(txHTML).join(''):`<div class="empty"><div class="big">💸</div>هنوز تراکنشی ثبت نشده است.</div>`;
+  drawDonut('donutCanvas','donutLegend', state.txs.filter(t=>t.type==='out'));
+}
+
+function renderAlerts(){
+  const today=todayStr(); const alerts=[];
+  state.cheques.filter(c=>c.status==='pending').forEach(c=>{
+    const days=Math.round((new Date(c.date)-new Date(today))/864e5);
+    if(days<0) alerts.push({icon:'🧾',text:`چک ${escapeHtml(c.number)} (${fmt(c.amount)} تومان) ${-days} روز پیش سررسید شده!`,color:'#dc2626'});
+    else if(days<=7) alerts.push({icon:'🧾',text:`چک ${escapeHtml(c.number)} تا ${days} روز دیگر سررسید می‌شود (${fmt(c.amount)} تومان)`,color:'#d97706'});
+  });
+  state.reminders.filter(r=>!r.done).forEach(r=>{
+    const days=Math.round((new Date(r.date)-new Date(today))/864e5);
+    if(days<0) alerts.push({icon:'⏰',text:`یادآوری «${escapeHtml(r.title)}» ${-days} روز دیر شده`,color:'#dc2626'});
+    else if(days<=7) alerts.push({icon:'⏰',text:`«${escapeHtml(r.title)}» تا ${days} روز دیگر`,color:'#d97706'});
+  });
+  state.installments.forEach(inst=>{
+    if(inst.paidCount>=inst.totalCount) return;
+    const nd=nextInstallmentDate(inst); const days=Math.round((new Date(nd)-new Date(today))/864e5);
+    if(days<=7) alerts.push({icon:'💳',text:`قسط «${escapeHtml(inst.title)}» (${fmt(inst.amount)} تومان) ${days<0?(-days+' روز دیر شده'):'تا '+days+' روز دیگر'}`,color:days<0?'#dc2626':'#d97706'});
+  });
+  state.debts.filter(d=>!d.paid).forEach(d=>{
+    const p=state.people.find(x=>x.id===d.personId);
+    if(d.type==='lend') alerts.push({icon:'👥',text:`از ${escapeHtml(p?p.name:'؟')} ${fmt(d.amount)} تومان طلب داری`,color:'#059669'});
+  });
+  const sec=document.getElementById('alertsSection');
+  if(alerts.length){ sec.style.display='block'; document.getElementById('alertsList').innerHTML=alerts.slice(0,6).map(a=>`<div class="alert-item"><span style="font-size:18px">${a.icon}</span><span style="flex:1">${a.text}</span></div>`).join(''); }
+  else sec.style.display='none';
+}
+
+function renderTransactions(){
+  const q=(document.getElementById('searchInput').value||'').trim();
+  const accF=document.getElementById('txAccountFilter').value;
+  let list=[...state.txs].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  if(currentFilter!=='all') list=list.filter(t=>t.type===currentFilter);
+  if(accF!=='all') list=list.filter(t=>t.accountId===Number(accF)||t.fromId===Number(accF)||t.toId===Number(accF));
+  if(q) list=list.filter(t=>(t.title||'').includes(q)||catById(t.cat).t.includes(q));
+  document.getElementById('allTx').innerHTML=list.length?list.map(txHTML).join(''):`<div class="empty"><div class="big">🔍</div>موردی پیدا نشد.</div>`;
+}
+
+function renderAccounts(){
+  document.getElementById('accountsTotal').textContent=fmt(totalBalance())+' تومان';
+  document.getElementById('accountsList').innerHTML=state.accounts.map((a,i)=>{
+    const bal=accountBalance(a.id);
+    return `<div class="card" style="margin-bottom:11px;display:flex;align-items:center;gap:12px">
+      <div class="tx-icon" style="background:${ACC_COLORS[i%ACC_COLORS.length]};color:#fff;font-size:20px">${ACC_ICONS[a.type]||'📦'}</div>
+      <div style="flex:1"><b style="font-size:14px">${escapeHtml(a.name)}</b><div style="font-size:11px;color:var(--muted);margin-top:2px">موجودی اولیه: ${fmt(a.initial)} تومان</div></div>
+      <div style="text-align:left"><div style="font-weight:900;font-size:14px;color:${bal>=0?'#059669':'#dc2626'}">${fmt(bal)}</div><div style="font-size:10px;color:var(--muted)">تومان</div></div>
+      ${state.accounts.length>1?`<button class="tx-del" onclick="deleteAccount(${a.id})">🗑️</button>`:''}
+    </div>`;
+  }).join('');
+  const opts=state.accounts.map(a=>`<option value="${a.id}">${escapeHtml(a.name)}</option>`).join('');
+  document.getElementById('txAccountFilter').innerHTML='<option value="all">همه حساب‌ها</option>'+opts;
+}
+
+function drawDonut(canvasId,legendId,txs){
+  const canvas=document.getElementById(canvasId); if(!canvas) return;
+  const ctx=canvas.getContext('2d'); const byCat={};
+  txs.forEach(t=>{ byCat[t.cat]=(byCat[t.cat]||0)+(Number(t.amount)||0); });
+  const entries=Object.entries(byCat).sort((a,b)=>b[1]-a[1]);
+  const total=entries.reduce((s,e)=>s+e[1],0);
+  const W=canvas.width,H=canvas.height,cx=W/2,cy=H/2,R=Math.min(W,H)/2-8,r=R*0.62;
+  ctx.clearRect(0,0,W,H);
+  if(!total){ ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.strokeStyle='#cbd5e1'; ctx.lineWidth=R-r; ctx.stroke(); ctx.fillStyle='#94a3b8'; ctx.font='11px Tahoma'; ctx.textAlign='center'; ctx.fillText('داده‌ای نیست',cx,cy+4); document.getElementById(legendId).innerHTML='<div style="font-size:11px;color:var(--muted)">هنوز هزینه‌ای ثبت نشده است.</div>'; return; }
+  let ang=-Math.PI/2;
+  entries.forEach(([catId,val])=>{ const c=catById(catId); const sweep=(val/total)*Math.PI*2; ctx.beginPath(); ctx.arc(cx,cy,R,ang,ang+sweep); ctx.arc(cx,cy,r,ang+sweep,ang,true); ctx.closePath(); ctx.fillStyle=c.c; ctx.fill(); ang+=sweep; });
+  ctx.fillStyle='#64748b'; ctx.font='bold 12px Tahoma'; ctx.textAlign='center'; ctx.fillText(fmtShort(total),cx,cy-2); ctx.font='10px Tahoma'; ctx.fillText('تومان',cx,cy+13);
+  document.getElementById(legendId).innerHTML=entries.slice(0,6).map(([catId,val])=>{ const c=catById(catId); return `<div class="legend-item"><span class="dot" style="background:${c.c}"></span>${c.i} ${c.t}<b>${Math.round(val/total*100)}٪</b></div>`; }).join('');
+}
+
+function renderStats(){
+  const txs=periodTxs(statPeriod);
+  const income=txs.filter(t=>t.type==='in').reduce((s,t)=>s+(Number(t.amount)||0),0);
+  const expense=txs.filter(t=>t.type==='out').reduce((s,t)=>s+(Number(t.amount)||0),0);
+  document.getElementById('statIncome').textContent=fmtShort(income);
+  document.getElementById('statExpense').textContent=fmtShort(expense);
+  document.getElementById('statSaving').textContent=(income>0?Math.round((income-expense)/income*100):0)+'٪';
+  // insights
+  const days=statPeriod||30;
+  const avgDaily=expense/days;
+  const byCat={}; txs.filter(t=>t.type==='out').forEach(t=>{ byCat[t.cat]=(byCat[t.cat]||0)+(Number(t.amount)||0); });
+  const topCat=Object.entries(byCat).sort((a,b)=>b[1]-a[1])[0];
+  const biggest=txs.filter(t=>t.type==='out').sort((a,b)=>b.amount-a.amount)[0];
+  const now=new Date(); const dayOfMonth=now.getDate(); const daysInMonth=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+  const m=monthTotals(); const forecast=dayOfMonth>0?Math.round(m.expense/dayOfMonth*daysInMonth):0;
+  document.getElementById('insightsCard').innerHTML=`<h3 style="font-size:13px;margin-bottom:10px">💡 بینش‌های مالی</h3>
+    <div style="font-size:12px;line-height:2.1">
+    <div>📆 میانگین هزینه روزانه: <b>${fmt(avgDaily)} تومان</b></div>
+    ${topCat?`<div>🔥 بیشترین هزینه: <b>${catById(topCat[0]).i} ${catById(topCat[0]).t} — ${fmt(topCat[1])} تومان</b></div>`:''}
+    ${biggest?`<div>💸 بزرگ‌ترین خرج: <b>${escapeHtml(biggest.title)} — ${fmt(biggest.amount)} تومان</b></div>`:''}
+    <div>🔮 پیش‌بینی هزینه پایان این ماه: <b>${fmt(forecast)} تومان</b></div>
+    </div>`;
+  drawDonut('donutCanvas2','donutLegend2', txs.filter(t=>t.type==='out'));
+  // trend bars: last 14 days
+  const bars=[]; const n=new Date();
+  for(let i=13;i>=0;i--){ const dt=new Date(n); dt.setDate(n.getDate()-i); bars.push(dt); }
+  const vals=bars.map(dt=>{ const key=dt.toISOString().slice(0,10); return txs.filter(t=>t.type==='out'&&t.date===key).reduce((s,t)=>s+(Number(t.amount)||0),0); });
+  const max=Math.max(...vals,1);
+  document.getElementById('trendBars').innerHTML=bars.map((dt,i)=>{ const h=Math.max(4,Math.round(vals[i]/max*100)); const show=i%3===0||i===bars.length-1; return `<div class="bar-col"><div class="bar" style="height:${h}%"></div><div class="bar-label">${show?new Intl.DateTimeFormat('fa-IR',{day:'numeric'}).format(dt):''}</div></div>`; }).join('');
+}
+function setPeriod(days,btn){ statPeriod=days; document.querySelectorAll('#periodChips .chip').forEach(c=>c.classList.remove('active')); btn.classList.add('active'); renderStats(); }
+
+function renderBudget(){
+  const m=monthTotals(); const entries=Object.entries(state.budgets);
+  if(!entries.length){ document.getElementById('budgetList').innerHTML=`<div class="empty"><div class="big">🎯</div>هنوز بودجه‌ای تنظیم نشده است.</div>`; return; }
+  document.getElementById('budgetList').innerHTML=entries.map(([catId,limit])=>{
+    const c=catById(catId);
+    const spent=state.txs.filter(t=>t.type==='out'&&t.cat===catId&&(()=>{const dt=new Date(t.date);const n=new Date();return dt.getMonth()===n.getMonth()&&dt.getFullYear()===n.getFullYear();})()).reduce((s,t)=>s+(Number(t.amount)||0),0);
+    const pct=Math.min(100,Math.round(spent/limit*100)); const color=pct>=100?'#ef4444':pct>=75?'#f59e0b':'#10b981';
+    const status=pct>=100?'⛔ از بودجه گذشته!':pct>=75?'⚠️ نزدیک به سقف':'✅ در محدوده';
+    return `<div class="budget-item"><div class="budget-head"><b>${c.i} ${c.t}</b><span style="color:var(--muted)">${fmt(spent)} از ${fmt(limit)}</span></div><div class="progress"><div class="progress-fill" style="width:${pct}%;background:${color}"></div></div><div style="display:flex;justify-content:space-between;margin-top:5px;font-size:11px"><span style="color:${color};font-weight:700">${status} — ${pct}٪</span><button class="budget-edit" onclick="editBudget('${catId}')">ویرایش</button></div></div>`;
+  }).join('');
+}
+
+function renderGoals(){
+  const el=document.getElementById('goalsList');
+  if(!state.goals.length){ el.innerHTML=`<div class="card empty"><div class="big">🏆</div>هنوز هدفی تعیین نشده است.</div>`; return; }
+  el.innerHTML=state.goals.map(g=>{ const pct=Math.min(100,Math.round((g.current||0)/g.target*100));
+    return `<div class="goal-card"><div style="display:flex;justify-content:space-between;align-items:center"><h3 style="font-size:14px">${escapeHtml(g.title)}</h3><button class="tx-del" onclick="deleteGoal(${g.id})">🗑️</button></div><div style="font-size:12px;margin:6px 0 10px;opacity:.85">${fmt(g.current)} از ${fmt(g.target)} تومان — ${pct}٪</div><div class="progress" style="background:#d1fae5"><div class="progress-fill" style="width:${pct}%;background:linear-gradient(90deg,#10b981,#059669)"></div></div><div style="display:flex;gap:7px;margin-top:11px"><button class="budget-edit" style="flex:1;padding:8px" onclick="addToGoal(${g.id},500000)">+ ۵۰۰ هزار</button><button class="budget-edit" style="flex:1;padding:8px" onclick="addToGoal(${g.id},1000000)">+ ۱ میلیون</button><button class="budget-edit" style="flex:1;padding:8px" onclick="addToGoal(${g.id},5000000)">+ ۵ میلیون</button></div></div>`;
+  }).join('');
+}
+
+function renderPeople(){
+  const el=document.getElementById('peopleList');
+  if(!state.people.length){ el.innerHTML=`<div class="card empty"><div class="big">👥</div>هنوز شخصی اضافه نشده است.</div>`; }
+  else el.innerHTML=state.people.map(p=>{
+    let net=0; state.debts.filter(d=>d.personId===p.id&&!d.paid).forEach(d=>{ net+= d.type==='lend'?Number(d.amount):-Number(d.amount); });
+    return `<div class="card" style="margin-bottom:10px;display:flex;align-items:center;gap:11px">
+      <div class="tx-icon" style="background:#ecfdf5">👤</div>
+      <div style="flex:1"><b style="font-size:13px">${escapeHtml(p.name)}</b>${p.phone?`<div style="font-size:11px;color:var(--muted)">${escapeHtml(p.phone)}</div>`:''}</div>
+      <div style="text-align:left"><div style="font-weight:900;font-size:13px;color:${net>=0?'#059669':'#dc2626'}">${net>=0?'طلب: ':'بدهی: '}${fmt(Math.abs(net))}</div><div style="font-size:10px;color:var(--muted)">تومان</div></div>
+      <button class="tx-del" onclick="deletePerson(${p.id})">🗑️</button></div>`;
+  }).join('');
+  const dl=document.getElementById('debtsList');
+  const debts=[...state.debts].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  dl.innerHTML=debts.length?debts.map(d=>{ const p=state.people.find(x=>x.id===d.personId); const isLend=d.type==='lend';
+    return `<div class="tx"><div class="tx-icon" style="background:${isLend?'#ecfdf5':'#fef2f2'}">${isLend?'🟢':'🔴'}</div><div class="tx-info"><div class="tx-title">${escapeHtml(p?p.name:'؟')} — ${isLend?'قرض دادم':'قرض گرفتم'}</div><div class="tx-date">${faDateShort(d.date)}${d.note?' • '+escapeHtml(d.note):''}</div></div><div style="text-align:left"><div class="tx-amount ${isLend?'in':'out'}">${fmt(d.amount)}</div>${d.paid?'<span class="badge green">تسویه شده ✓</span>':'<span class="badge amber">باز</span>'}</div>${!d.paid?`<button class="budget-edit" onclick="payDebt(${d.id})">تسویه</button>`:''}<button class="tx-del" onclick="deleteDebt(${d.id})">🗑️</button></div>`;
+  }).join(''):`<div class="empty"><div class="big">📋</div>هنوز قرضی ثبت نشده است.</div>`;
+}
+
+function renderCheques(){
+  let list=[...state.cheques].sort((a,b)=>new Date(a.date)-new Date(b.date));
+  if(chequeFilter!=='all') list=list.filter(c=>c.status===chequeFilter);
+  const today=todayStr();
+  document.getElementById('chequesList').innerHTML=list.length?list.map(c=>{
+    const overdue=c.status==='pending'&&c.date<today;
+    const stBadge=c.status==='cleared'?'<span class="badge green">پاس شده ✓</span>':c.status==='bounced'?'<span class="badge red">برگشتی ✗</span>':overdue?'<span class="badge red">سررسید گذشته!</span>':'<span class="badge amber">در انتظار</span>';
+    return `<div class="card" style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:13px">🧾 چک ${escapeHtml(c.number)} — ${c.type==='in'?'دریافتی 🟢':'پرداختی 🔴'}</b>${stBadge}</div>
+      <div style="font-size:12px;color:var(--muted);margin:7px 0;line-height:1.9">مبلغ: <b style="color:var(--text)">${fmt(c.amount)} تومان</b><br>سررسید: ${faDate(c.date)}<br>طرف: ${escapeHtml(c.person||'—')}</div>
+      ${c.status==='pending'?`<div style="display:flex;gap:7px"><button class="budget-edit" style="flex:1" onclick="setChequeStatus(${c.id},'cleared')">✓ پاس شد</button><button class="budget-edit" style="flex:1" onclick="setChequeStatus(${c.id},'bounced')">✗ برگشت</button><button class="tx-del" onclick="deleteCheque(${c.id})">🗑️</button></div>`:''}
+    </div>`;
+  }).join(''):`<div class="card empty"><div class="big">🧾</div>چکی در این دسته نیست.</div>`;
+}
+function setChequeFilter(f,btn){ chequeFilter=f; document.querySelectorAll('#chequeChips .chip').forEach(c=>c.classList.remove('active')); btn.classList.add('active'); renderCheques(); }
+
+function renderInstallments(){
+  const el=document.getElementById('installmentsList');
+  if(!state.installments.length){ el.innerHTML=`<div class="card empty"><div class="big">💳</div>هنوز قسطی ثبت نشده است.</div>`; return; }
+  el.innerHTML=state.installments.map(inst=>{
+    const done=inst.paidCount>=inst.totalCount; const pct=Math.round(inst.paidCount/inst.totalCount*100);
+    const nd=done?'—':faDate(nextInstallmentDate(inst));
+    return `<div class="card" style="margin-bottom:11px">
+      <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:13px">${escapeHtml(inst.title)}</b>${done?'<span class="badge green">تمام شد ✓</span>':`<span class="badge amber">قسط بعدی: ${nd}</span>`}</div>
+      <div style="font-size:12px;color:var(--muted);margin:7px 0">هر قسط: <b style="color:var(--text)">${fmt(inst.amount)} تومان</b> — پرداخت شده: ${inst.paidCount} از ${inst.totalCount}</div>
+      <div class="progress"><div class="progress-fill" style="width:${pct}%;background:#3b82f6"></div></div>
+      <div style="display:flex;gap:7px;margin-top:10px">${!done?`<button class="btn-primary" style="flex:1;padding:11px" onclick="payInstallment(${inst.id})">پرداخت قسط (${fmt(inst.amount)}) ✓</button>`:''}<button class="tx-del" onclick="deleteInstallment(${inst.id})">🗑️</button></div>
+    </div>`;
+  }).join('');
+}
+
+function renderReminders(){
+  const list=[...state.reminders].sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const today=todayStr();
+  document.getElementById('remindersList').innerHTML=list.length?list.map(r=>{
+    const overdue=!r.done&&r.date<today;
+    return `<div class="tx"><div class="tx-icon" style="background:${r.done?'#ecfdf5':overdue?'#fef2f2':'#fffbeb'}">${r.done?'✅':overdue?'🚨':'⏰'}</div><div class="tx-info"><div class="tx-title" style="${r.done?'text-decoration:line-through;opacity:.6':''}">${escapeHtml(r.title)}</div><div class="tx-date">${faDate(r.date)}${r.amount?' • '+fmt(r.amount)+' تومان':''}</div></div><button class="budget-edit" onclick="toggleReminder(${r.id})">${r.done?'بازگشایی':'انجام شد ✓'}</button><button class="tx-del" onclick="deleteReminder(${r.id})">🗑️</button></div>`;
+  }).join(''):`<div class="empty"><div class="big">⏰</div>یادآوری‌ای ثبت نشده است.</div>`;
+}
+
+function renderCalendar(){
+  const y=calCursor.getFullYear(), m=calCursor.getMonth();
+  document.getElementById('calTitle').textContent=new Intl.DateTimeFormat('fa-IR',{month:'long',year:'numeric'}).format(calCursor);
+  const first=new Date(y,m,1); const offset=(first.getDay()+1)%7; // Saturday start
+  const daysInMonth=new Date(y,m+1,0).getDate();
+  const dows=['ش','ی','د','س','چ','پ','ج'];
+  let html=dows.map(d=>`<div class="cal-dow">${d}</div>`).join('');
+  for(let i=0;i<offset;i++) html+='<div></div>';
+  for(let d=1;d<=daysInMonth;d++){
+    const key=new Date(y,m,d).toISOString().slice(0,10);
+    const dayTxs=state.txs.filter(t=>t.date===key);
+    const hasIn=dayTxs.some(t=>t.type==='in'), hasOut=dayTxs.some(t=>t.type==='out');
+    const isToday=key===todayStr();
+    html+=`<div class="cal-day ${isToday?'today':''} ${key===calSelected?'selected':''}" onclick="selectCalDay('${key}')"><span>${new Intl.DateTimeFormat('fa-IR',{day:'numeric'}).format(new Date(y,m,d))}</span><span class="cal-dots">${hasIn?'<i style="background:#10b981"></i>':''}${hasOut?'<i style="background:#ef4444"></i>':''}</span></div>`;
+  }
+  document.getElementById('calGrid').innerHTML=html;
+  renderCalDay();
+}
+function changeMonth(dir){ calCursor.setMonth(calCursor.getMonth()+dir); renderCalendar(); }
+function selectCalDay(key){ calSelected=key; renderCalendar(); }
+function renderCalDay(){
+  document.getElementById('calDayTitle').textContent='تراکنش‌های '+faDate(calSelected);
+  const list=state.txs.filter(t=>t.date===calSelected);
+  document.getElementById('calDayTx').innerHTML=list.length?list.map(txHTML).join(''):`<div class="empty"><div class="big">📭</div>در این روز تراکنشی نیست.</div>`;
+}
+
+function renderCategories(){
+  const renderList=(cats,type)=>cats.map(c=>{ const isCustom=state.customCats.some(x=>x.id===c.id);
+    return `<div class="tx"><div class="tx-icon" style="background:${c.bg}">${c.i}</div><div class="tx-info"><div class="tx-title">${c.t}</div><div class="tx-date">${type==='out'?'هزینه':'درآمد'}</div></div>${isCustom?`<button class="tx-del" onclick="deleteCategory('${c.id}')">🗑️</button>`:'<span class="badge gray">پیش‌فرض</span>'}</div>`;
+  }).join('');
+  document.getElementById('catsList').innerHTML=`<h3 style="font-size:13px;margin-bottom:8px">🔴 دسته‌های هزینه</h3>${renderList(catsByType('out'),'out')}<h3 style="font-size:13px;margin:16px 0 8px">🟢 دسته‌های درآمد</h3>${renderList(catsByType('in'),'in')}`;
+}
+
+function renderAll(){ renderDashboard(); renderTransactions(); renderAccounts(); renderStats(); renderBudget(); renderGoals(); renderPeople(); renderCheques(); renderInstallments(); renderReminders(); renderCalendar(); renderCategories(); syncSettingsUI(); }
+
+// ---------- Navigation ----------
+const MORE_VIEWS=['budget','goals','people','cheques','installments','reminders','calendar','categories','settings'];
+function switchView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>{ const v=b.dataset.view; b.classList.toggle('active', v===name || (MORE_VIEWS.includes(name)&&v==='more')); });
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(name==='stats') renderStats(); if(name==='budget') renderBudget(); if(name==='goals') renderGoals();
+  if(name==='people') renderPeople(); if(name==='cheques') renderCheques(); if(name==='installments') renderInstallments();
+  if(name==='reminders') renderReminders(); if(name==='calendar') renderCalendar(); if(name==='categories') renderCategories();
+  if(name==='accounts') renderAccounts(); if(name==='dashboard') renderDashboard();
+}
+function setFilter(f,btn){ currentFilter=f; document.querySelectorAll('#filterChips .chip').forEach(c=>c.classList.remove('active')); btn.classList.add('active'); renderTransactions(); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(o=>{ o.addEventListener('click',e=>{ if(e.target===o) o.classList.remove('open'); }); });
+
+// ---------- Transactions ----------
+function accountOptions(selectedId){ return state.accounts.map(a=>`<option value="${a.id}" ${a.id===selectedId?'selected':''}>${ACC_ICONS[a.type]||'📦'} ${escapeHtml(a.name)} — ${fmt(accountBalance(a.id))} تومان</option>`).join(''); }
+function openAddModal(type){
+  txType=type||'out';
+  document.getElementById('txModal').classList.add('open');
+  document.getElementById('txAmount').value=''; document.getElementById('txTitle').value='';
+  document.getElementById('txDate').value=todayStr();
+  document.getElementById('txAccount').innerHTML=accountOptions(state.accounts[0]?state.accounts[0].id:null);
+  setTxType(txType);
+}
+function setTxType(type){ txType=type; document.getElementById('btnOut').classList.toggle('active',type==='out'); document.getElementById('btnIn').classList.toggle('active',type==='in'); document.getElementById('txModalTitle').textContent=type==='out'?'🔴 ثبت هزینه':'🟢 ثبت درآمد'; selectedCat=type==='out'?'food':'salary'; renderCatGrid(); }
+function renderCatGrid(){ const cats=catsByType(txType); document.getElementById('catGrid').innerHTML=cats.map(c=>`<button class="cat-btn ${c.id===selectedCat?'selected':''}" onclick="selectCat('${c.id}')"><span class="ci">${c.i}</span>${c.t}</button>`).join(''); }
+function selectCat(id){ selectedCat=id; renderCatGrid(); }
+function saveTransaction(){
+  const amount=Number(document.getElementById('txAmount').value);
+  const title=document.getElementById('txTitle').value.trim();
+  const date=document.getElementById('txDate').value||todayStr();
+  const accountId=Number(document.getElementById('txAccount').value);
+  if(!amount||amount<=0){ toast('⚠️ مبلغ را وارد کنید'); return; }
+  state.txs.push({id:uid(),type:txType,amount,title:title||catById(selectedCat).t,cat:selectedCat,date,accountId});
+  save(); closeModal('txModal'); renderAll(); toast(txType==='out'?'✅ هزینه ثبت شد':'✅ درآمد ثبت شد');
+}
+function deleteTx(id){ if(!confirm('این تراکنش حذف شود؟')) return; state.txs=state.txs.filter(t=>t.id!==id); save(); renderAll(); toast('🗑️ حذف شد'); }
+
+// ---------- Accounts & Transfer ----------
+function openAccountModal(){ document.getElementById('accName').value=''; document.getElementById('accInitial').value=''; document.getElementById('accountModal').classList.add('open'); }
+function saveAccount(){
+  const name=document.getElementById('accName').value.trim(); const type=document.getElementById('accType').value; const initial=Number(document.getElementById('accInitial').value)||0;
+  if(!name){ toast('⚠️ نام حساب را وارد کنید'); return; }
+  state.accounts.push({id:uid(),name,type,initial}); save(); closeModal('accountModal'); renderAll(); toast('👛 حساب ساخته شد');
+}
+function deleteAccount(id){ if(!confirm('این حساب حذف شود؟ تراکنش‌هایش به حساب اول منتقل می‌شود.')) return;
+  const first=state.accounts.find(a=>a.id!==id);
+  state.txs.forEach(t=>{ if(t.accountId===id) t.accountId=first?first.id:null; if(t.fromId===id&&first) t.fromId=first.id; if(t.toId===id&&first) t.toId=first.id; });
+  state.accounts=state.accounts.filter(a=>a.id!==id); save(); renderAll(); toast('🗑️ حساب حذف شد');
+}
+function openTransferModal(){
+  if(state.accounts.length<2){ toast('⚠️ حداقل ۲ حساب لازم است'); return; }
+  document.getElementById('trFrom').innerHTML=state.accounts.map(a=>`<option value="${a.id}">${escapeHtml(a.name)}</option>`).join('');
+  document.getElementById('trTo').innerHTML=state.accounts.map(a=>`<option value="${a.id}">${escapeHtml(a.name)}</option>`).join('');
+  document.getElementById('trTo').selectedIndex=1; document.getElementById('trAmount').value=''; document.getElementById('trDate').value=todayStr();
+  document.getElementById('transferModal').classList.add('open');
+}
+function saveTransfer(){
+  const fromId=Number(document.getElementById('trFrom').value), toId=Number(document.getElementById('trTo').value);
+  const amount=Number(document.getElementById('trAmount').value); const date=document.getElementById('trDate').value||todayStr();
+  if(fromId===toId){ toast('⚠️ دو حساب نمی‌توانند یکی باشند'); return; }
+  if(!amount||amount<=0){ toast('⚠️ مبلغ را وارد کنید'); return; }
+  state.txs.push({id:uid(),type:'transfer',amount,fromId,toId,date,title:'انتقال'});
+  save(); closeModal('transferModal'); renderAll(); toast('🔁 انتقال انجام شد');
+}
+
+// ---------- SMS Parser ----------
+function openSmsModal(){ document.getElementById('smsText').value=''; document.getElementById('smsPreview').style.display='none'; document.getElementById('smsAccount').innerHTML=accountOptions(state.accounts[0]?state.accounts[0].id:null); document.getElementById('smsModal').classList.add('open'); }
+function parseSms(){
+  const text=document.getElementById('smsText').value.trim();
+  if(!text){ toast('⚠️ متن پیامک را بچسبانید'); return; }
+  // normalize Persian digits
+  const faDigits={'۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9'};
+  let norm=text.replace(/[۰-۹]/g,d=>faDigits[d]);
+  // find amounts: numbers with commas/decimals near ریال/تومان or standalone large numbers
+  const nums=[...norm.matchAll(/(\d{1,3}(?:[,\s]\d{3})+|\d{4,})/g)].map(m=>Number(m[1].replace(/[,\s]/g,'')));
+  let amount=nums.length?Math.max(...nums):0;
+  // if amount looks like Rial (ends with many zeros / large), convert to Toman if text says ریال
+  let isRial=/ریال|rial/i.test(text);
+  if(isRial && amount>=10000) amount=Math.round(amount/10);
+  const isOut=/برداشت|خرید|پرداخت|کسر|خروجی|debit|withdraw/i.test(text);
+  const isIn=/واریز|دریافت|ورودی|credit|deposit/i.test(text);
+  const type=isOut?'out':isIn?'in':'out';
+  // try extract merchant/title: after بابت / خرید / از
+  let title='تراکنش پیامکی';
+  const mTitle=text.match(/(?:بابت|خرید|از|به)\s+([^\n.,؛]{3,40})/);
+  if(mTitle) title=mTitle[1].trim().slice(0,40);
+  if(!amount){ toast('⚠️ مبلغی در پیامک پیدا نشد'); return; }
+  smsParsed={amount,type,title,date:todayStr()};
+  document.getElementById('smsPreviewText').textContent=`نوع: ${type==='out'?'🔴 برداشت (هزینه)':'🟢 واریز (درآمد)'}\nمبلغ: ${fmt(amount)} تومان\nعنوان: ${title}\nتاریخ: امروز`;
+  document.getElementById('smsPreview').style.display='block';
+  toast('🔍 تشخیص داده شد — بررسی و ثبت کنید');
+}
+function confirmSms(){
+  if(!smsParsed) return;
+  const accountId=Number(document.getElementById('smsAccount').value);
+  const cat=smsParsed.type==='out'?'other':'other_in';
+  state.txs.push({id:uid(),type:smsParsed.type,amount:smsParsed.amount,title:smsParsed.title,cat,date:smsParsed.date,accountId});
+  save(); closeModal('smsModal'); renderAll(); toast('✅ از پیامک ثبت شد');
+}
+
+// ---------- Budget / Goals ----------
+function openBudgetModal(){ document.getElementById('budgetCat').innerHTML=catsByType('out').map(c=>`<option value="${c.id}">${c.i} ${c.t}</option>`).join(''); document.getElementById('budgetAmount').value=''; document.getElementById('budgetModal').classList.add('open'); }
+function editBudget(catId){ openBudgetModal(); document.getElementById('budgetCat').value=catId; document.getElementById('budgetAmount').value=state.budgets[catId]||''; }
+function saveBudget(){ const cat=document.getElementById('budgetCat').value; const amt=Number(document.getElementById('budgetAmount').value); if(!amt||amt<=0){ toast('⚠️ مبلغ بودجه را وارد کنید'); return; } state.budgets[cat]=amt; save(); closeModal('budgetModal'); renderBudget(); toast('🎯 بودجه ذخیره شد'); }
+function openGoalModal(){ document.getElementById('goalTitle').value=''; document.getElementById('goalTarget').value=''; document.getElementById('goalCurrent').value=''; document.getElementById('goalModal').classList.add('open'); }
+function saveGoal(){ const title=document.getElementById('goalTitle').value.trim(); const target=Number(document.getElementById('goalTarget').value); const current=Number(document.getElementById('goalCurrent').value)||0; if(!title||!target){ toast('⚠️ نام و مبلغ هدف را وارد کنید'); return; } state.goals.push({id:uid(),title,target,current}); save(); closeModal('goalModal'); renderGoals(); toast('🏆 هدف ثبت شد'); }
+function addToGoal(id,amt){ const g=state.goals.find(x=>x.id===id); if(g){ g.current=(g.current||0)+amt; save(); renderGoals(); toast('💪 به هدف اضافه شد'); } }
+function deleteGoal(id){ if(!confirm('این هدف حذف شود؟')) return; state.goals=state.goals.filter(g=>g.id!==id); save(); renderGoals(); }
+
+// ---------- People & Debts ----------
+function openPersonModal(){ document.getElementById('personName').value=''; document.getElementById('personPhone').value=''; document.getElementById('personModal').classList.add('open'); }
+function savePerson(){ const name=document.getElementById('personName').value.trim(); if(!name){ toast('⚠️ نام را وارد کنید'); return; } state.people.push({id:uid(),name,phone:document.getElementById('personPhone').value.trim()}); save(); closeModal('personModal'); renderPeople(); toast('👤 شخص اضافه شد'); }
+function deletePerson(id){ if(!confirm('این شخص و قرض‌هایش حذف شود؟')) return; state.people=state.people.filter(p=>p.id!==id); state.debts=state.debts.filter(d=>d.personId!==id); save(); renderPeople(); renderDashboard(); }
+function openDebtModal(){
+  if(!state.people.length){ toast('⚠️ اول یک شخص اضافه کنید'); openPersonModal(); return; }
+  document.getElementById('debtPerson').innerHTML=state.people.map(p=>`<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
+  document.getElementById('debtAmount').value=''; document.getElementById('debtDate').value=todayStr(); document.getElementById('debtNote').value='';
+  setDebtType('lend'); document.getElementById('debtModal').classList.add('open');
+}
+function setDebtType(t){ debtType=t; document.getElementById('debtLend').classList.toggle('active',t==='lend'); document.getElementById('debtBorrow').classList.toggle('active',t==='borrow'); }
+function saveDebt(){ const personId=Number(document.getElementById('debtPerson').value); const amount=Number(document.getElementById('debtAmount').value); const date=document.getElementById('debtDate').value||todayStr(); const note=document.getElementById('debtNote').value.trim(); if(!amount||amount<=0){ toast('⚠️ مبلغ را وارد کنید'); return; } state.debts.push({id:uid(),personId,type:debtType,amount,date,note,paid:false}); save(); closeModal('debtModal'); renderPeople(); renderDashboard(); toast('✅ قرض ثبت شد'); }
+function payDebt(id){ const d=state.debts.find(x=>x.id===id); if(d){ d.paid=true; save(); renderPeople(); renderDashboard(); toast('✅ تسویه شد'); } }
+function deleteDebt(id){ if(!confirm('این قرض حذف شود؟')) return; state.debts=state.debts.filter(d=>d.id!==id); save(); renderPeople(); renderDashboard(); }
+
+// ---------- Cheques ----------
+function openChequeModal(){ document.getElementById('chqNumber').value=''; document.getElementById('chqAmount').value=''; document.getElementById('chqDate').value=todayStr(); document.getElementById('chqPerson').value=''; setChequeType('in'); document.getElementById('chequeModal').classList.add('open'); }
+function setChequeType(t){ chequeType=t; document.getElementById('chqIn').classList.toggle('active',t==='in'); document.getElementById('chqOut').classList.toggle('active',t==='out'); }
+function saveCheque(){ const number=document.getElementById('chqNumber').value.trim(); const amount=Number(document.getElementById('chqAmount').value); const date=document.getElementById('chqDate').value||todayStr(); const person=document.getElementById('chqPerson').value.trim(); if(!number||!amount){ toast('⚠️ شماره و مبلغ چک را وارد کنید'); return; } state.cheques.push({id:uid(),number,amount,date,type:chequeType,person,status:'pending'}); save(); closeModal('chequeModal'); renderCheques(); renderDashboard(); toast('🧾 چک ثبت شد'); }
+function setChequeStatus(id,st){ const c=state.cheques.find(x=>x.id===id); if(c){ c.status=st; save(); renderCheques(); renderDashboard(); toast(st==='cleared'?'✅ پاس شد':'✗ برگشت خورد'); } }
+function deleteCheque(id){ if(!confirm('این چک حذف شود؟')) return; state.cheques=state.cheques.filter(c=>c.id!==id); save(); renderCheques(); renderDashboard(); }
+
+// ---------- Installments ----------
+function openInstallmentModal(){ document.getElementById('instTitle').value=''; document.getElementById('instAmount').value=''; document.getElementById('instCount').value=''; document.getElementById('instDate').value=todayStr(); document.getElementById('installmentModal').classList.add('open'); }
+function saveInstallment(){ const title=document.getElementById('instTitle').value.trim(); const amount=Number(document.getElementById('instAmount').value); const totalCount=Number(document.getElementById('instCount').value); const startDate=document.getElementById('instDate').value||todayStr(); if(!title||!amount||!totalCount){ toast('⚠️ همه فیلدها را پر کنید'); return; } state.installments.push({id:uid(),title,amount,totalCount,paidCount:0,startDate}); save(); closeModal('installmentModal'); renderInstallments(); toast('💳 قسط ثبت شد'); }
+function payInstallment(id){ const inst=state.installments.find(x=>x.id===id); if(!inst||inst.paidCount>=inst.totalCount) return; inst.paidCount++; state.txs.push({id:uid(),type:'out',amount:inst.amount,title:'قسط '+inst.title,cat:'bills',date:todayStr(),accountId:state.accounts[0]?state.accounts[0].id:null}); save(); renderInstallments(); renderDashboard(); toast('✅ قسط پرداخت شد'); }
+function deleteInstallment(id){ if(!confirm('این قسط حذف شود؟')) return; state.installments=state.installments.filter(x=>x.id!==id); save(); renderInstallments(); renderDashboard(); }
+
+// ---------- Reminders ----------
+function openReminderModal(){ document.getElementById('remTitle').value=''; document.getElementById('remDate').value=todayStr(); document.getElementById('remAmount').value=''; document.getElementById('reminderModal').classList.add('open'); }
+function saveReminder(){ const title=document.getElementById('remTitle').value.trim(); const date=document.getElementById('remDate').value||todayStr(); const amount=Number(document.getElementById('remAmount').value)||0; if(!title){ toast('⚠️ عنوان را وارد کنید'); return; } state.reminders.push({id:uid(),title,date,amount,done:false}); save(); closeModal('reminderModal'); renderReminders(); renderDashboard(); toast('⏰ یادآوری ثبت شد'); }
+function toggleReminder(id){ const r=state.reminders.find(x=>x.id===id); if(r){ r.done=!r.done; save(); renderReminders(); renderDashboard(); } }
+function deleteReminder(id){ if(!confirm('این یادآوری حذف شود؟')) return; state.reminders=state.reminders.filter(r=>r.id!==id); save(); renderReminders(); renderDashboard(); }
+
+// ---------- Categories ----------
+function openCategoryModal(){ document.getElementById('newCatName').value=''; document.getElementById('newCatIcon').value=''; document.getElementById('categoryModal').classList.add('open'); }
+function saveCategory(){ const t=document.getElementById('newCatName').value.trim(); const i=document.getElementById('newCatIcon').value.trim()||'📦'; const type=document.getElementById('newCatType').value; if(!t){ toast('⚠️ نام دسته را وارد کنید'); return; } state.customCats.push({id:'custom_'+uid(),t,i,c:'#8b5cf6',bg:'#f5f3ff',type}); save(); closeModal('categoryModal'); renderCategories(); toast('🏷️ دسته ساخته شد'); }
+function deleteCategory(id){ if(!confirm('این دسته حذف شود؟')) return; state.customCats=state.customCats.filter(c=>c.id!==id); save(); renderCategories(); }
+
+// ---------- Settings / PIN / Dark ----------
+function syncSettingsUI(){
+  document.getElementById('nameInput').value=state.name||'';
+  document.getElementById('darkToggle').checked=!!state.dark;
+  document.body.classList.toggle('dark',!!state.dark);
+  document.getElementById('pinStatus').textContent=state.pin?'رمز فعال است 🔒':'بدون رمز — هر کسی می‌تواند باز کند';
+  if(currentAccount){ document.getElementById('currentAccountInfo').textContent=currentAccount.name+' • '+(currentAccount.username||currentAccount.email||''); document.getElementById('faceIdStatus').textContent=currentAccount.faceIdCredId?'فعال است 🙂':'فعال نیست'; }
+}
+function saveName(){ state.name=document.getElementById('nameInput').value.trim(); save(); updateGreeting(); toast('✅ نام ذخیره شد'); }
+function toggleDark(){ state.dark=document.getElementById('darkToggle').checked; save(); syncSettingsUI(); }
+function openPinModal(){ document.getElementById('pinInput').value=''; document.getElementById('pinModal').classList.add('open'); }
+function savePin(){ const v=document.getElementById('pinInput').value.trim(); if(v&&!/^\d{4}$/.test(v)){ toast('⚠️ رمز باید ۴ رقم باشد'); return; } state.pin=v; save(); closeModal('pinModal'); syncSettingsUI(); toast(v?'🔒 رمز تنظیم شد':'🔓 رمز حذف شد'); }
+function updateGreeting(){ const h=new Date().getHours(); const g=h<12?'صبح بخیر ☀️':h<18?'سلام 👋':'شب بخیر 🌙'; document.getElementById('greeting').textContent=state.name?`${g} ${state.name}`:g; document.getElementById('avatarLetter').textContent=state.name?state.name[0]:'م'; }
+
+function exportData(){ const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='malyar-pro-backup.json'; a.click(); toast('⬇️ پشتیبان دانلود شد'); }
+function exportCSV(){
+  const rows=[['تاریخ','نوع','عنوان','دسته','حساب','مبلغ (تومان)']];
+  [...state.txs].sort((a,b)=>new Date(a.date)-new Date(b.date)).forEach(t=>{
+    const typeName=t.type==='in'?'درآمد':t.type==='out'?'هزینه':'انتقال';
+    const acc=t.type==='transfer'?((accById(t.fromId)||{}).name||'')+' -> '+((accById(t.toId)||{}).name||''):(accById(t.accountId)||{}).name||'';
+    rows.push([t.date,typeName,t.title||'',t.type==='transfer'?'':catById(t.cat).t,acc,t.amount]);
+  });
+  const csv='\ufeff'+rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='malyar-transactions.csv'; a.click(); toast('⬇️ فایل CSV دانلود شد');
+}
+function importData(e){ const file=e.target.files[0]; if(!file) return; const r=new FileReader(); r.onload=()=>{ try{ const data=JSON.parse(r.result); if(data.txs){ state=Object.assign(defaultState(),data); save(); renderAll(); updateGreeting(); toast('✅ داده بازیابی شد'); } else toast('⚠️ فایل معتبر نیست'); }catch(err){ toast('⚠️ خطا در خواندن فایل'); } }; r.readAsText(file); }
+function resetAll(){ if(!confirm('همه داده‌ها حذف شود؟ قابل بازگشت نیست!')) return; state=defaultState(); save(); seedDemo(false); renderAll(); updateGreeting(); toast('🔄 بازنشانی شد'); }
+
+// ---------- PIN Lock ----------
+function buildPinPad(){
+  const keys=['1','2','3','4','5','6','7','8','9','','0','⌫'];
+  document.getElementById('pinPad').innerHTML=keys.map(k=>k?`<button onclick="pinPress('${k}')">${k}</button>`:'<span></span>').join('');
+}
+function pinPress(k){
+  if(k==='⌫'){ pinEntry=pinEntry.slice(0,-1); }
+  else if(pinEntry.length<4){ pinEntry+=k; }
+  updateLockDots();
+  if(pinEntry.length===4){
+    if(pinEntry===state.pin){ sessionStorage.setItem('malyar_unlocked','1'); document.getElementById('lockScreen').classList.remove('open'); pinEntry=''; updateLockDots(); toast('👋 خوش آمدید'); }
+    else{ const ls=document.getElementById('lockScreen'); ls.classList.add('shake'); setTimeout(()=>ls.classList.remove('shake'),450); pinEntry=''; setTimeout(updateLockDots,200); }
+  }
+}
+function updateLockDots(){ const dots=document.querySelectorAll('#lockDots i'); dots.forEach((d,i)=>d.classList.toggle('filled',i<pinEntry.length)); }
+function checkLock(){ if(state.pin && sessionStorage.getItem('malyar_unlocked')!=='1'){ document.getElementById('lockScreen').classList.add('open'); buildPinPad(); } }
+
+
+// ---------- Accounts & Face ID ----------
+function switchAuthTab(tab){
+  const isLogin=tab==='login';
+  document.getElementById('loginForm').style.display=isLogin?'block':'none';
+  document.getElementById('registerForm').style.display=isLogin?'none':'block';
+  document.getElementById('authTabLogin').classList.toggle('active',isLogin);
+  document.getElementById('authTabRegister').classList.toggle('active',!isLogin);
+}
+function enterAccount(acc){
+  currentAccount=acc;
+  sessionStorage.setItem('malyar_current_account', String(acc.id));
+  document.getElementById('authScreen').style.display='none';
+  load();
+  document.getElementById('todayDate').textContent=faDate(todayStr());
+  updateGreeting();
+  renderAll();
+  checkLock();
+}
+function doRegister(){
+  const name=document.getElementById('regName').value.trim();
+  const username=document.getElementById('regUsername').value.trim();
+  const email=username.toLowerCase();
+  const pass=document.getElementById('regPass').value;
+  const pass2=document.getElementById('regPass2').value;
+  const empty=document.getElementById('regEmpty').checked;
+  if(!name||!email||!pass){ toast('⚠️ همه فیلدها را پر کنید'); return; }
+  if(username.length<3 || /\s/.test(username)){ toast('⚠️ یوزرنیم حداقل ۳ کاراکتر و بدون فاصله باشد'); return; }
+  if(pass.length<4){ toast('⚠️ رمز حداقل ۴ کاراکتر باشد'); return; }
+  if(pass!==pass2){ toast('⚠️ تکرار رمز مطابقت ندارد'); return; }
+  const accounts=getAccounts();
+  if(accounts.some(a=>(a.username||a.email||'').toLowerCase()===email)){ toast('⚠️ این یوزرنیم قبلاً ثبت شده — وارد شوید'); switchAuthTab('login'); return; }
+  const isFirstAccount=accounts.length===0;
+  const acc={id:uid(), name, username, email, passHash:hashPw(pass,email), createdAt:todayStr()};
+  accounts.push(acc); saveAccounts(accounts);
+  currentAccount=acc;
+  sessionStorage.setItem('malyar_current_account', String(acc.id));
+  let migrated=false;
+  if(isFirstAccount){
+    try{ const old=localStorage.getItem('malyar_v2')||localStorage.getItem('malyar_v1');
+      if(old){ const oldData=JSON.parse(old); state=Object.assign(defaultState(), oldData); if(!state.accounts||!state.accounts.length) state.accounts=defaultState().accounts; state.txs.forEach(t=>{ if(!t.accountId) t.accountId=state.accounts[0].id; }); migrated=true; }
+    }catch(e){}
+  }
+  if(!migrated){ state=defaultState(); state.name=name; if(!empty) seedDemo(false); }
+  save();
+  document.getElementById('authScreen').style.display='none';
+  document.getElementById('todayDate').textContent=faDate(todayStr());
+  updateGreeting(); renderAll(); checkLock();
+  toast(migrated?'✅ اکانت ساخته شد و داده‌های قبلی منتقل شد':'✅ اکانت ساخته شد — شروع از صفر!');
+}
+function doLogin(){
+  const email=document.getElementById('loginUsername').value.trim().toLowerCase();
+  const pass=document.getElementById('loginPass').value;
+  const accounts=getAccounts(); const acc=accounts.find(a=>(a.username||a.email||'').toLowerCase()===email);
+  if(!acc){ toast('⚠️ اکانتی با این یوزرنیم پیدا نشد — ساخت اکانت کنید'); return; }
+  if(acc.passHash!==hashPw(pass,email)){ toast('⚠️ رمز اشتباه است'); return; }
+  enterAccount(acc); toast('👋 خوش آمدید '+acc.name);
+}
+function doLogout(){ if(!confirm('از اکانت خارج شوید؟ داده‌ها روی گوشی می‌ماند.')) return; sessionStorage.removeItem('malyar_current_account'); currentAccount=null; location.reload(); }
+function b64ToBytes(b64){ const bin=atob(b64.replace(/-/g,'+').replace(/_/g,'/')); const bytes=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i); return bytes; }
+function bytesToB64(bytes){ let bin=''; bytes.forEach(b=>bin+=String.fromCharCode(b)); return btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
+async function registerFaceId(){
+  if(!currentAccount) return;
+  if(!navigator.credentials || !window.isSecureContext){ toast('⚠️ Face ID فقط روی لینک HTTPS کار می‌کند'); return; }
+  try{
+    const challenge=crypto.getRandomValues(new Uint8Array(32));
+    const cred=await navigator.credentials.create({publicKey:{challenge, rp:{name:'Malyar Pro'}, user:{id:new TextEncoder().encode(String(currentAccount.id)), name:(currentAccount.username||currentAccount.email||'user'), displayName:currentAccount.name}, pubKeyCredParams:[{type:'public-key',alg:-7},{type:'public-key',alg:-257}], attestation:'none', timeout:60000}});
+    const accounts=getAccounts(); const acc=accounts.find(a=>a.id===currentAccount.id);
+    if(acc){ acc.faceIdCredId=bytesToB64(new Uint8Array(cred.rawId)); saveAccounts(accounts); currentAccount.faceIdCredId=acc.faceIdCredId; }
+    syncSettingsUI(); toast('🙂 Face ID فعال شد!');
+  }catch(e){ toast('⚠️ Face ID فعال نشد ('+e.name+')'); }
+}
+async function loginWithFaceId(){
+  const email=(document.getElementById('loginUsername').value||'').trim().toLowerCase();
+  const accounts=getAccounts(); const acc=accounts.find(a=>(a.username||a.email||'').toLowerCase()===email);
+  if(!acc){ toast('⚠️ اول یوزرنیم را بنویسید'); return; }
+  if(!acc.faceIdCredId){ toast('⚠️ برای این اکانت Face ID فعال نشده — با رمز وارد شوید'); return; }
+  if(!navigator.credentials || !window.isSecureContext){ toast('⚠️ Face ID فقط روی لینک HTTPS کار می‌کند'); return; }
+  try{
+    const challenge=crypto.getRandomValues(new Uint8Array(32));
+    await navigator.credentials.get({publicKey:{challenge, allowCredentials:[{id:b64ToBytes(acc.faceIdCredId), type:'public-key'}], timeout:60000}});
+    enterAccount(acc); toast('🙂 خوش آمدید!');
+  }catch(e){ toast('⚠️ Face ID ناموفق بود'); }
+}
+
+// ---------- Init ----------
+(function init(){
+  const savedId=sessionStorage.getItem('malyar_current_account');
+  const accounts=getAccounts();
+  const acc=accounts.find(a=>String(a.id)===String(savedId));
+  if(acc){ currentAccount=acc; load(); }
+  else { document.getElementById('authScreen').style.display='flex'; return; }
+  document.getElementById('todayDate').textContent=faDate(todayStr());
+  updateGreeting();
+  renderAll();
+  checkLock();
+})();
+</script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5ebca2a3fdf1fad',t:'MTc5NTM5MDkzNg=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5ebca2a3fdf1fad',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
