@@ -10,6 +10,7 @@
 <title>مالیار پرو | مدیریت مالی کامل</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  #authScreen{display:none!important}
   :root{
     --bg:#f1f5f9; --card:#ffffff; --text:#0f172a; --muted:#64748b; --line:#e2e8f0;
     --accent:#10b981; --accent2:#059669; --red:#ef4444; --amber:#f59e0b; --blue:#3b82f6;
@@ -448,14 +449,6 @@
           <input id="nameInput" style="padding:8px 10px;border:2px solid var(--line);border-radius:12px;font-family:inherit;width:120px;text-align:center;background:var(--input);color:var(--text)" placeholder="نام شما" onchange="saveName()">
         </div>
         <div class="settings-row">
-          <div><b>👤 اکانت فعلی</b><p id="currentAccountInfo">—</p></div>
-          <button class="budget-edit" onclick="doLogout()">خروج</button>
-        </div>
-        <div class="settings-row">
-          <div><b>🙂 Face ID</b><p id="faceIdStatus">فعال نیست</p></div>
-          <button class="budget-edit" onclick="registerFaceId()">فعال‌سازی</button>
-        </div>
-        <div class="settings-row">
           <div><b>🌙 حالت تاریک</b><p>راحت‌تر برای چشم در شب</p></div>
           <label class="switch"><input type="checkbox" id="darkToggle" onchange="toggleDark()"><span class="track"></span></label>
         </div>
@@ -484,7 +477,7 @@
           <button class="budget-edit" style="color:#dc2626" onclick="resetAll()">حذف 🗑️</button>
         </div>
       </div>
-      <p style="text-align:center;font-size:11px;color:var(--muted);margin-top:14px">مالیار پرو نسخه ۲.۰ — داده‌ها فقط روی گوشی شما 🔒</p>
+      <p style="text-align:center;font-size:11px;color:var(--muted);margin-top:14px">مالیار پرو نسخه ۳.۲ — ورود مستقیم، داده‌ها فقط روی همین گوشی 🔒</p>
     </div>
   </div>
 
@@ -1174,7 +1167,6 @@ function syncSettingsUI(){
   document.getElementById('darkToggle').checked=!!state.dark;
   document.body.classList.toggle('dark',!!state.dark);
   document.getElementById('pinStatus').textContent=state.pin?'رمز فعال است 🔒':'بدون رمز — هر کسی می‌تواند باز کند';
-  if(currentAccount){ document.getElementById('currentAccountInfo').textContent=currentAccount.name+' • '+(currentAccount.username||currentAccount.email||''); document.getElementById('faceIdStatus').textContent=currentAccount.faceIdCredId?'فعال است 🙂':'فعال نیست'; }
 }
 function saveName(){ state.name=document.getElementById('nameInput').value.trim(); save(); updateGreeting(); toast('✅ نام ذخیره شد'); }
 function toggleDark(){ state.dark=document.getElementById('darkToggle').checked; save(); syncSettingsUI(); }
@@ -1300,16 +1292,27 @@ async function loginWithFaceId(){
 
 // ---------- Init ----------
 (function init(){
-  const savedId=sessionStorage.getItem('malyar_current_account');
   const accounts=getAccounts();
-  const acc=accounts.find(a=>String(a.id)===String(savedId));
-  if(acc){ currentAccount=acc; load(); }
-  else { document.getElementById('authScreen').style.display='flex'; return; }
+  const sessionId=sessionStorage.getItem('malyar_current_account');
+  const rememberedId=localStorage.getItem('malyar_auto_account');
+  let acc=accounts.find(a=>String(a.id)===String(sessionId))
+       || accounts.find(a=>String(a.id)===String(rememberedId))
+       || accounts[0];
+  // First launch: create a local profile with empty finance data; no sign-in needed.
+  if(!acc){
+    acc={id:'local-'+uid(),name:'',username:'',createdAt:todayStr()};
+    accounts.push(acc); saveAccounts(accounts);
+  }
+  currentAccount=acc;
+  localStorage.setItem('malyar_auto_account',String(acc.id));
+  sessionStorage.setItem('malyar_current_account',String(acc.id));
+  load();
+  document.getElementById('authScreen').style.display='none';
   document.getElementById('todayDate').textContent=faDate(todayStr());
   updateGreeting();
   renderAll();
   checkLock();
 })();
 </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5ebca2a3fdf1fad',t:'MTc5NTM5MDkzNg=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5ebca2a3fdf1fad',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
