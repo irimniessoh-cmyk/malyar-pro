@@ -1,0 +1,14 @@
+{
+  "name": "حسابداری شخصی Liho",
+  "short_name": "Liho",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#e7e7ff",
+  "theme_color": "#e7e7ff",
+  "icons": [
+    {"src": "./liho-icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}

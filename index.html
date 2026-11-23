@@ -203,7 +203,7 @@
   html{background:#dff2ff}
   body{background:radial-gradient(ellipse at 86% 34%,rgba(255,169,207,.84),transparent 36%),radial-gradient(ellipse at 12% 83%,rgba(56,198,242,.78),transparent 40%),linear-gradient(145deg,#dedcff 0%,#fff0f6 48%,#c5efff 100%);background-attachment:fixed;color:var(--text)}
   .phone{background:transparent;box-shadow:none;max-width:480px;padding-bottom:112px}
-  .header.ara-header{position:sticky;top:0;padding:12px 18px 10px;background:rgba(238,239,255,.42);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.38);gap:10px}
+  .header.ara-header{position:sticky;top:0;padding:calc(12px + env(safe-area-inset-top,0px)) 18px 10px;background:rgba(238,239,255,.42);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.38);gap:10px}
   .header-tools{display:flex;align-items:center;gap:4px;flex:1;justify-content:flex-start}
   .head-tool{width:35px;height:38px;border:0;background:transparent;color:#211847;display:grid;place-items:center;border-radius:12px;padding:6px;cursor:pointer}
   .head-tool:active{background:rgba(255,255,255,.55)}
@@ -275,7 +275,7 @@
   body.dark .ara-nav .nav-btn,body.dark .ara-nav .nav-btn .ni{color:#d6cfee}
   body.dark .ara-nav .nav-btn.active .ni{color:#fff}
   body.dark .modal{background:rgba(34,29,55,.97)}
-  @media(max-width:420px){.header.ara-header{padding:10px 12px 8px}.header-tools{gap:0}.head-tool{width:31px;height:35px;padding:5px}.head-tool svg{width:20px;height:20px}.ara-brand h1{font-size:20px}.balance-card{padding:19px 17px}.balance-amount{font-size:27px!important}.bottom-nav.ara-nav{width:calc(100% - 18px)}.ara-nav .nav-btn .ni{width:35px;height:35px}.ara-nav .nav-btn{font-size:8px}}
+  @media(max-width:420px){.header.ara-header{padding:calc(10px + env(safe-area-inset-top,0px)) 12px 8px}.header-tools{gap:0}.head-tool{width:31px;height:35px;padding:5px}.head-tool svg{width:20px;height:20px}.ara-brand h1{font-size:20px}.balance-card{padding:19px 17px}.balance-amount{font-size:27px!important}.bottom-nav.ara-nav{width:calc(100% - 18px)}.ara-nav .nav-btn .ni{width:35px;height:35px}.ara-nav .nav-btn{font-size:8px}}
 
 
   /* Extra polished glass layer: soft bloom, refined surfaces, tactile icons and forms */
@@ -1559,5 +1559,5 @@ async function loginWithFaceId(){
   checkLock();
 })();
 </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5ec561f687f08c6',t:'MTc5NTM5NjY2OQ=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5ec561f687f08c6',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
